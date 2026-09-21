@@ -1,0 +1,110 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_echosat_symmetry_grpo_v1_4_wc1_strictbest
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_5_WC1_PairStrict
+model_dir: runs/${model_name}
+
+# v1.4 reward replay showed that continuing training erased part of the
+# low-warmup anchor behavior. Restart from the selected v1.2 iter=15 seed.
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt
+
+skip_initial_val: false
+val_interval: 5
+ckpt_interval: 5
+
+training:
+  echosat_target_mode: symmetry_grpo_v1_5
+
+  # Formal run size. This is intentionally not a smoke configuration.
+  iterations: 120
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+
+  # Persist exact per-iteration reward and GRPO advantage replay. This is the
+  # audit trail v1.4 was missing.
+  save_echosat_reward_replay: true
+  save_echosat_reward_replay_every: 1
+  echosat_reward_replay_dir: runs/${model_name}/reward_replay
+
+  # Keep wc1 as the training warmup target.
+  feedback_input_mode: model_warmup
+  feedback_val_mode: model_warmup
+  feedback_model_warmup_prob: 1.0
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 1
+  feedback_warmup_cpu_lim: 5
+
+  # Strict search-work reward. CPU is not a positive reward source.
+  echosat_decisions_weight: 0.55
+  echosat_conflicts_weight: 0.45
+  echosat_final_cpu_weight: 0.0
+  echosat_search_eps_decisions: 0.0
+  echosat_search_eps_conflicts: 0.0
+
+  # v1.5 hard constraints: negative examples may contribute negative gradient,
+  # but controls/known failures/mixed pairs cannot contribute positive gradient.
+  echosat_control_negative_advantage_weight: 1.0
+  echosat_v15_pair_mixed_advantage_hard_clamp: true
+  echosat_v15_suppress_mixed_group_positive: true
+  echosat_v15_suppress_anchor_failure_positive: true
+  echosat_v15_suppress_hard_negative_failure_positive: true
+
+  # Anchor preservation is a direct training constraint, not only a best.pt
+  # validation gate.
+  echosat_anchor_failure_penalty_weight: 8.0
+  echosat_anchor_catastrophic_failure_floor: 2.0
+  echosat_anchor_failure_floor: 0.5
+
+  # Hard negatives are scored per variant/repeat. Failing to recover search-work
+  # reduction is penalized, not just obvious blowups.
+  echosat_hard_negative_penalty_weight: 8.0
+  echosat_hard_negative_failure_floor: 1.25
+
+  # Pair/order inconsistency has its own penalty in addition to permutation
+  # delta and mixed-direction penalties.
+  echosat_pair_rank_penalty_weight: 5.0
+  echosat_permutation_delta_weight: 4.0
+  echosat_mixed_group_negative_scale: 4.0
+  echosat_mixed_group_positive_scale: 2.0
+  echosat_suppress_mixed_group_positive: true
+
+  # Keep subset perm_seed1730 as a hard failure repair case.
+  echosat_subset_failure_penalty_weight: 8.0
+  echosat_subset_failure_floor: 1.5
+  echosat_suppress_subset_failure_positive: true
+
+  # Controls remain penalty-only for positive learning signal.
+  echosat_random_control_penalty_weight: 7.5
+  echosat_control_penalty_weight: 3.5
+  echosat_large_weight_phase_shift_penalty_weight: 2.0
+  echosat_control_weight_delta_weight: 3.5
+  echosat_control_phase_flip_weight: 3.5
+  echosat_control_rank_change_weight: 2.0
+  echosat_control_advantage_weight: 0.0
+
+  # Weighted-path and cap risks still block positive reward.
+  echosat_decision_blowup_penalty_weight: 3.0
+  echosat_conflict_blowup_penalty_weight: 3.0
+  echosat_weighted_risk_weight: 1.5
+  echosat_near_cap_penalty_weight: 1.0
+
+  # Keep strict online best checkpoint selection aligned with the v1.5 goal.
+  best_checkpoint_metric: echosat_strict_search_work_v2
+  best_checkpoint_require_gate_pass: true
+  best_checkpoint_anchor_required_min: 1.0
+  best_checkpoint_hard_recovery_required_min: 0.6666666667
+  best_checkpoint_random_control_max: 0.05
+  best_checkpoint_subset_failure_max: 0.0
+  best_checkpoint_search_blowup_max: 1.0
+  best_checkpoint_gate_penalty_weight: 100.0
+
+optim:
+  lr: 3.0e-6
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

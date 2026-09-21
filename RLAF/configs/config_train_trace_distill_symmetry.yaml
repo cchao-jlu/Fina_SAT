@@ -1,0 +1,70 @@
+# @package _global_
+
+defaults:
+  - config_train_trace_distill
+  - _self_
+
+model_name: GNN_Glucose_3SAT_SymmetryTraceAdapter
+model_dir: runs/${model_name}
+from_checkpoint: runs/GNN_Glucose_3SAT_FeedbackImprover_Balanced/best.pt
+
+model:
+  global_state_dim: 6
+  var_state_dim: 20
+  event_adapter:
+    enabled: True
+    hidden_dim: 128
+    fusion: residual
+    delta_scale: 1.0
+    delta_clip: 1.0
+    gate_indices: []
+    graph_gate_indices: [0, 2]
+    graph_gate_threshold: 1.0e-9
+    base_rho_gate_threshold: null
+    selector_feature_names: null
+    selector_weights: null
+    selector_bias: 0.0
+    selector_threshold: 0.5
+    selector_feature_mean: null
+    selector_feature_std: null
+
+trace:
+  data_path: "data/trace_distill/symmetry_event_trace.pt"
+  relabel: True
+  permutation_manifest_path: "runs/analysis/symmetry_stress_manifest.csv"
+  label:
+    low_lbd_weight: 0.35
+    useful_decision_weight: 0.25
+    conflict_rank_weight: 0.20
+    propagation_rank_weight: 0.10
+    activity_rank_weight: 0.10
+    target_scale: 1.0
+    target_delta_clip: 1.0
+    min_target_mu: -4.0
+    max_target_mu: 4.0
+    rho_loss_weight: 0.0
+    mu_loss_weight: 1.0
+    no_activity_negative_weight: 2.0
+    no_activity_gate_indices: [0, 2]
+    no_activity_gate_eps: 1.0e-9
+    no_activity_negative_rho_loss_weight: 0.0
+    no_activity_negative_mu_loss_weight: 1.0
+    permutation_consistency_weight: 0.25
+    permutation_consistency_rho_loss_weight: 0.0
+    permutation_consistency_mu_loss_weight: 1.0
+    permutation_consistency_max_pairs_per_epoch: null
+
+training:
+  epochs: 30
+  freeze_backbone: True
+  use_cuda: True
+  use_amp: True
+  ckpt_interval: null
+
+loader:
+  batch_size: 8
+  num_workers: 0
+
+optim:
+  lr: 5e-4
+  weight_decay: 0.0

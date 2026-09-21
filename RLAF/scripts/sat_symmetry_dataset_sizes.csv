@@ -1,0 +1,8 @@
+family,instance,variables,clauses,variants
+php,php_p10_h9,90,775,3
+complete_coloring,k10_color9,90,775,3
+complete_coloring,k9_color8,72,549,3
+php,php_p9_h8,72,549,3
+subset_cardinality,bw8,33,76,3
+subset_cardinality,bw10,41,92,3
+subset_cardinality,bw12,49,108,3

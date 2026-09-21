@@ -1,0 +1,2151 @@
+method: grpo
+model_name: GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1
+model_dir: runs/GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt
+val_interval: 5
+ckpt_interval: 5
+training:
+  iterations: 20
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  clip_ratio: 0.2
+  beta: 1.0
+  kl_penalty: 0.25
+  target_stat: echosat_cost
+  num_samples: 16
+  use_amp: true
+  feedback_input_mode: model_warmup
+  feedback_val_mode: model_warmup
+  feedback_model_warmup_prob: 1.0
+  feedback_warmup_cpu_lim: 5
+  feedback_warmup_num_samples: 1
+  feedback_random_weight: 1.0
+  composite_cpu_weight: 1.0
+  composite_conflicts_weight: 0.3
+  composite_decisions_weight: 0.05
+  composite_unsolved_penalty: 0.0
+  speedup_baseline: neutral_weighted
+  speedup_baseline_weight: 1.0
+  speedup_cpu_column: CPU time
+  speedup_cpu_weight: 1.0
+  speedup_conflicts_weight: 0.2
+  speedup_decisions_weight: 0.05
+  speedup_unsolved_penalty: 8.0
+  speedup_result_mismatch_penalty: 20.0
+  speedup_ratio_eps: 1.0e-06
+  speedup_log_ratio_clip: 2.0
+  feedback_state_type: event_var
+  feedback_event_state_features: enhanced
+  feedback_state_momentum: 0.0
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 1
+  feedback_trace_lbd: 2
+  echosat_manifest_path: runs/analysis/echosat_symmetry_grpo_v1_canonical_manifest.csv
+  echosat_orbit_certification_path: runs/analysis/echosat_v2_orbit_certification.csv
+  echosat_ratio_eps: 1.0e-06
+  echosat_delta_clip: 1.0
+  echosat_final_cpu_weight: 0.0
+  echosat_search_weight: 1.0
+  echosat_decisions_weight: 0.55
+  echosat_conflicts_weight: 0.45
+  echosat_sym_weight: 1.0
+  echosat_portfolio_weight: 0.0
+  echosat_overhead_weight: 0.0
+  echosat_weighted_risk_weight: 1.5
+  echosat_control_penalty_weight: 3.5
+  echosat_delta_magnitude_weight: 0.5
+  echosat_permutation_delta_weight: 2.5
+  echosat_control_weight_delta_weight: 3.5
+  echosat_control_phase_flip_weight: 3.5
+  echosat_control_rank_change_weight: 2.0
+  echosat_static_risk_threshold: 0.1
+  echosat_near_cap_fraction: 0.8
+  echosat_event_tau: 0.0
+  echosat_unsolved_penalty: 8.0
+  echosat_result_mismatch_penalty: 20.0
+  echosat_strong_advantage_weight: 1.0
+  echosat_weak_advantage_weight: 0.6
+  echosat_control_advantage_weight: 0.0
+  echosat_other_advantage_weight: 0.0
+  trainable_scope: event_adapter
+  echosat_target_mode: symmetry_grpo_v2
+  echosat_sampling_mode: base_group
+  echosat_base_groups_per_iter: 4
+  echosat_control_base_groups_per_iter: 1
+  echosat_base_group_seed: 1729
+  echosat_static_reference_weight: 0.0
+  echosat_static_reference_cpu_weight: 0.0
+  echosat_control_portfolio_weight: 0.0
+  echosat_group_column: echosat_sampling_group_id
+  echosat_priority_groups_per_iter: 2
+  echosat_cpu_reduction_clip: 0.05
+  echosat_random_control_penalty_weight: 7.5
+  echosat_near_cap_penalty_weight: 1.0
+  echosat_large_weight_phase_shift_penalty_weight: 2.0
+  echosat_search_eps_decisions: 0.0
+  echosat_search_eps_conflicts: 0.0
+  echosat_decision_blowup_penalty_weight: 3.0
+  echosat_conflict_blowup_penalty_weight: 3.0
+  echosat_weighted_risk_positive_threshold: 0.0
+  best_checkpoint_metric: echosat_strict_search_work_v2
+  best_checkpoint_anchor_base_ids:
+  - k9_color8
+  - php_p9_h8
+  best_checkpoint_hard_recovery_base_ids:
+  - k10_color9
+  - php_p10_h9
+  best_checkpoint_subset_failure_base_id: subset_cardinality_bw12
+  best_checkpoint_subset_failure_variant: perm_seed1730
+  best_checkpoint_anchor_weight: 3.0
+  best_checkpoint_hard_recovery_weight: 2.0
+  best_checkpoint_strong_symmetry_weight: 1.0
+  best_checkpoint_random_control_penalty_weight: 2.0
+  best_checkpoint_subset_failure_penalty_weight: 1.0
+  best_checkpoint_search_blowup_penalty_weight: 1.0
+  echosat_mixed_group_negative_scale: 2.0
+  echosat_mixed_group_positive_scale: 0.35
+  echosat_suppress_mixed_group_positive: false
+  echosat_hard_negative_base_ids:
+  - k10_color9
+  - php_p10_h9
+  - subset_cardinality_bw12
+  echosat_hard_negative_penalty_weight: 8.0
+  echosat_anchor_base_ids:
+  - k9_color8
+  - php_p9_h8
+  echosat_anchor_failure_penalty_weight: 8.0
+  echosat_anchor_failure_floor: 0.5
+  echosat_subset_failure_base_id: subset_cardinality_bw12
+  echosat_subset_failure_variant: perm_seed1730
+  echosat_suppress_subset_failure_positive: true
+  echosat_subset_failure_penalty_weight: 8.0
+  echosat_subset_failure_floor: 1.5
+  echosat_val_manifest_path: runs/analysis/echosat_symmetry_grpo_v1_4_strictbest_val_manifest.csv
+  best_checkpoint_require_gate_pass: true
+  best_checkpoint_anchor_required_min: 1.0
+  best_checkpoint_hard_recovery_required_min: 0.6666666667
+  best_checkpoint_random_control_max: 0.05
+  best_checkpoint_subset_failure_max: 0.0
+  best_checkpoint_search_blowup_max: 1.0
+  best_checkpoint_gate_penalty_weight: 100.0
+  save_echosat_reward_replay: true
+  save_echosat_reward_replay_every: 1
+  echosat_reward_replay_dir: runs/GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1/reward_replay
+  echosat_control_negative_advantage_weight: 1.0
+  echosat_v15_pair_mixed_advantage_hard_clamp: false
+  echosat_v15_suppress_mixed_group_positive: true
+  echosat_v15_suppress_anchor_failure_positive: true
+  echosat_v15_suppress_hard_negative_failure_positive: true
+  echosat_anchor_catastrophic_failure_floor: 2.0
+  echosat_hard_negative_failure_floor: 1.25
+  echosat_pair_rank_penalty_weight: 1.0
+  echosat_v16_hard_block_mixed_positive: false
+  echosat_v17_positive_consistency_penalty_fraction: 0.15
+  echosat_v17_positive_large_shift_penalty_fraction: 0.2
+  echosat_v18_hard_negative_pressure_multiplier: 1.25
+  echosat_replay_only: false
+  echosat_compatible_checkpoint_init: true
+  echosat_orbit_variable_path: runs/analysis/echosat_v2_orbit_variables.csv
+dataset:
+  train_path: data/echosat_symmetry_grpo_v1_canonical/train/*/*.cnf
+  val_path: '@runs/analysis/echosat_symmetry_grpo_v1_4_strictbest_val_files.txt'
+  lazy: true
+solver:
+  solver: glucose
+  num_workers: 8
+  params:
+    cpu-lim: 5
+    rnd-freq: 0.0
+    K: 0.1
+model:
+  channels: 256
+  num_layers: 10
+  global_state_dim: 6
+  aggr:
+  - mean
+  feature_encoder: mlp
+  dropout: 0.0
+  feature_set: rich
+  separate_encoders: true
+  learnable_sigma: true
+  var_state_dim: 20
+  event_adapter:
+    enabled: true
+    hidden_dim: 128
+    fusion: weight_only_residual
+    delta_scale: 1.0
+    delta_clip: 0.25
+    gate_indices:
+    - 2
+    - 3
+    - 7
+    - 8
+    - 12
+    - 13
+    - 17
+    - 18
+    graph_gate_indices: null
+    graph_gate_threshold: null
+    base_rho_gate_threshold: null
+    selector_feature_names: null
+    selector_weights: null
+    selector_bias: 0.0
+    selector_threshold: 0.5
+    selector_feature_mean: null
+    selector_feature_std: null
+    orbit_feature_dim: 10
+    orbit_event_state_dim: 100
+    require_valid_orbit: true
+    min_orbit_event_variance: 1.0e-06
+scale_sigma: 0.1
+loader:
+  batch_size: 8
+  num_workers: 0
+optim:
+  lr: 3.0e-06
+  weight_decay: 0.0
+wandb:
+  project: RLAF
+  name: GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1
+  mode: disabled
+work_dir: /Users/cchao/EchoSAT/RLAF
+data_dir: data
+seed: 0
+skip_initial_val: false
+
+formal v2 compatible checkpoint load: loaded=142 skipped=0 loaded_keys=['cls_enc.mlp.0.bias', 'cls_enc.mlp.0.weight', 'cls_enc.mlp.3.bias', 'cls_enc.mlp.3.weight', 'cls_enc.mlp.4.bias', 'cls_enc.mlp.4.weight', 'event_adapter.0.bias', 'event_adapter.0.weight', 'event_adapter.2.bias', 'event_adapter.2.weight', 'event_adapter_polarity_gate.bias', 'event_adapter_polarity_gate.weight', 'layers.0.cls_norm.bias', 'layers.0.cls_norm.weight', 'layers.0.cls_up.0.bias', 'layers.0.cls_up.0.weight', 'layers.0.cls_up.3.bias', 'layers.0.cls_up.3.weight', 'layers.0.lit_norm.bias', 'layers.0.lit_norm.weight', 'layers.0.lit_up.0.bias', 'layers.0.lit_up.0.weight', 'layers.0.lit_up.3.bias', 'layers.0.lit_up.3.weight', 'layers.1.cls_norm.bias', 'layers.1.cls_norm.weight', 'layers.1.cls_up.0.bias', 'layers.1.cls_up.0.weight', 'layers.1.cls_up.3.bias', 'layers.1.cls_up.3.weight', 'layers.1.lit_norm.bias', 'layers.1.lit_norm.weight', 'layers.1.lit_up.0.bias', 'layers.1.lit_up.0.weight', 'layers.1.lit_up.3.bias', 'layers.1.lit_up.3.weight', 'layers.2.cls_norm.bias', 'layers.2.cls_norm.weight', 'layers.2.cls_up.0.bias', 'layers.2.cls_up.0.weight', 'layers.2.cls_up.3.bias', 'layers.2.cls_up.3.weight', 'layers.2.lit_norm.bias', 'layers.2.lit_norm.weight', 'layers.2.lit_up.0.bias', 'layers.2.lit_up.0.weight', 'layers.2.lit_up.3.bias', 'layers.2.lit_up.3.weight', 'layers.3.cls_norm.bias', 'layers.3.cls_norm.weight', 'layers.3.cls_up.0.bias', 'layers.3.cls_up.0.weight', 'layers.3.cls_up.3.bias', 'layers.3.cls_up.3.weight', 'layers.3.lit_norm.bias', 'layers.3.lit_norm.weight', 'layers.3.lit_up.0.bias', 'layers.3.lit_up.0.weight', 'layers.3.lit_up.3.bias', 'layers.3.lit_up.3.weight', 'layers.4.cls_norm.bias', 'layers.4.cls_norm.weight', 'layers.4.cls_up.0.bias', 'layers.4.cls_up.0.weight', 'layers.4.cls_up.3.bias', 'layers.4.cls_up.3.weight', 'layers.4.lit_norm.bias', 'layers.4.lit_norm.weight', 'layers.4.lit_up.0.bias', 'layers.4.lit_up.0.weight', 'layers.4.lit_up.3.bias', 'layers.4.lit_up.3.weight', 'layers.5.cls_norm.bias', 'layers.5.cls_norm.weight', 'layers.5.cls_up.0.bias', 'layers.5.cls_up.0.weight', 'layers.5.cls_up.3.bias', 'layers.5.cls_up.3.weight', 'layers.5.lit_norm.bias', 'layers.5.lit_norm.weight', 'layers.5.lit_up.0.bias', 'layers.5.lit_up.0.weight', 'layers.5.lit_up.3.bias', 'layers.5.lit_up.3.weight', 'layers.6.cls_norm.bias', 'layers.6.cls_norm.weight', 'layers.6.cls_up.0.bias', 'layers.6.cls_up.0.weight', 'layers.6.cls_up.3.bias', 'layers.6.cls_up.3.weight', 'layers.6.lit_norm.bias', 'layers.6.lit_norm.weight', 'layers.6.lit_up.0.bias', 'layers.6.lit_up.0.weight', 'layers.6.lit_up.3.bias', 'layers.6.lit_up.3.weight', 'layers.7.cls_norm.bias', 'layers.7.cls_norm.weight', 'layers.7.cls_up.0.bias', 'layers.7.cls_up.0.weight', 'layers.7.cls_up.3.bias', 'layers.7.cls_up.3.weight', 'layers.7.lit_norm.bias', 'layers.7.lit_norm.weight', 'layers.7.lit_up.0.bias', 'layers.7.lit_up.0.weight', 'layers.7.lit_up.3.bias', 'layers.7.lit_up.3.weight', 'layers.8.cls_norm.bias', 'layers.8.cls_norm.weight', 'layers.8.cls_up.0.bias', 'layers.8.cls_up.0.weight', 'layers.8.cls_up.3.bias', 'layers.8.cls_up.3.weight', 'layers.8.lit_norm.bias', 'layers.8.lit_norm.weight', 'layers.8.lit_up.0.bias', 'layers.8.lit_up.0.weight', 'layers.8.lit_up.3.bias', 'layers.8.lit_up.3.weight', 'layers.9.cls_norm.bias', 'layers.9.cls_norm.weight', 'layers.9.cls_up.0.bias', 'layers.9.cls_up.0.weight', 'layers.9.cls_up.3.bias', 'layers.9.cls_up.3.weight', 'layers.9.lit_norm.bias', 'layers.9.lit_norm.weight', 'layers.9.lit_up.0.bias', 'layers.9.lit_up.0.weight', 'layers.9.lit_up.3.bias', 'layers.9.lit_up.3.weight', 'lit_enc.mlp.0.bias', 'lit_enc.mlp.0.weight', 'lit_enc.mlp.3.bias', 'lit_enc.mlp.3.weight', 'lit_enc.mlp.4.bias', 'lit_enc.mlp.4.weight', 'out_lin1.bias', 'out_lin1.weight', 'out_lin2.bias', 'out_lin2.weight'] skipped_keys=[]
+Using device cpu
+Trainable scope: event_adapter; 83461/5227528 parameters trainable across 6 tensors
+Trainable parameter prefixes: event_adapter.0.weight, event_adapter.0.bias, event_adapter.2.weight, event_adapter.2.bias, event_adapter_polarity_gate.weight, event_adapter_polarity_gate.bias
+Saving checkpoint at iteration 0
+ ----------------------- GRPO Iteration 0 ----------------------- 
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 0.45 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 5.29 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 6.17 seconds
+Solved 125 formulas in 5.58 seconds
+Solved 125 unique plain formulas in 6.18 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 0 (val): 
+val/decisions: 51850.27
+val/conflicts: 48109.91
+val/propagations: 365067.46
+val/restarts: 1.16
+val/CPU time: 0.32
+Best-checkpoint metric at iteration 0: echosat_strict_search_work_v2=-166.986667
+Best checkpoint gate failed; not saving best checkpoint for this validation.
+Iteration 0: selected 4 echosat_sampling_group_id groups / 74 CNFs
+Solved 74 formulas in 0.30 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1184 formulas in 91.17 seconds
+Solved 74 formulas in 6.40 seconds
+Solved 74 formulas in 5.90 seconds
+Solved 74 unique plain formulas in 6.42 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 0 (train): 
+train/decisions: 99891.01
+train/conflicts: 92996.18
+train/propagations: 705517.42
+train/restarts: 1.27
+train/CPU time: 0.59
+Optimized model for 48 steps (2.58 seconds)
+ ----------------------- GRPO Iteration 1 ----------------------- 
+Iteration 1: selected 4 echosat_sampling_group_id groups / 57 CNFs
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 57 formulas in 0.23 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 912 formulas in 21.15 seconds
+Solved 57 formulas in 3.08 seconds
+Solved 57 formulas in 3.22 seconds
+Solved 57 unique plain formulas in 3.08 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 1 (train): 
+train/decisions: 21239.63
+train/conflicts: 19520.89
+train/propagations: 338201.23
+train/restarts: 1.02
+train/CPU time: 0.16
+Optimized model for 48 steps (2.61 seconds)
+ ----------------------- GRPO Iteration 2 ----------------------- 
+Iteration 2: selected 4 echosat_sampling_group_id groups / 60 CNFs
+Solved 60 formulas in 0.29 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 960 formulas in 92.68 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 60 formulas in 5.89 seconds
+Solved 60 formulas in 5.96 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 60 unique plain formulas in 4.47 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 2 (train): 
+train/decisions: 125970.91
+train/conflicts: 117193.31
+train/propagations: 983021.58
+train/restarts: 1.34
+train/CPU time: 0.76
+Optimized model for 48 steps (4.01 seconds)
+ ----------------------- GRPO Iteration 3 ----------------------- 
+Iteration 3: selected 4 echosat_sampling_group_id groups / 57 CNFs
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 57 formulas in 2.15 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 912 formulas in 78.76 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 57 formulas in 6.01 seconds
+Solved 57 formulas in 5.16 seconds
+Solved 57 unique plain formulas in 6.01 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 3 (train): 
+train/decisions: 115372.99
+train/conflicts: 107432.38
+train/propagations: 819232.31
+train/restarts: 1.35
+train/CPU time: 0.68
+Optimized model for 48 steps (2.20 seconds)
+ ----------------------- GRPO Iteration 4 ----------------------- 
+Iteration 4: selected 4 echosat_sampling_group_id groups / 71 CNFs
+Solved 71 formulas in 0.34 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 80.64 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 5.67 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 5.06 seconds
+Solved 71 unique plain formulas in 6.15 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 4 (train): 
+train/decisions: 93949.05
+train/conflicts: 87453.03
+train/propagations: 682268.53
+train/restarts: 1.29
+train/CPU time: 0.55
+Optimized model for 48 steps (2.62 seconds)
+Saving checkpoint at completed iteration 5
+ ----------------------- GRPO Iteration 5 ----------------------- 
+Solved 125 formulas in 0.62 seconds
+Solved 125 formulas in 5.66 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 6.20 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 5.85 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 5 (val): 
+val/decisions: 52780.58
+val/conflicts: 48973.19
+val/propagations: 371548.15
+val/restarts: 1.16
+val/CPU time: 0.33
+Best-checkpoint metric at iteration 5: echosat_strict_search_work_v2=-166.666667
+Best checkpoint gate failed; not saving best checkpoint for this validation.
+Iteration 5: selected 4 echosat_sampling_group_id groups / 71 CNFs
+Solved 71 formulas in 0.38 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 78.12 seconds
+Solved 71 formulas in 6.16 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 5.30 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 unique plain formulas in 6.46 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 5 (train): 
+train/decisions: 91902.67
+train/conflicts: 85533.31
+train/propagations: 666757.03
+train/restarts: 1.28
+train/CPU time: 0.54
+Optimized model for 48 steps (3.13 seconds)
+ ----------------------- GRPO Iteration 6 ----------------------- 
+Iteration 6: selected 4 echosat_sampling_group_id groups / 71 CNFs
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 0.29 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 14.82 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 0.97 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 1.06 seconds
+Solved 71 unique plain formulas in 1.04 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 6 (train): 
+train/decisions: 11654.83
+train/conflicts: 10847.49
+train/propagations: 78731.53
+train/restarts: 1.00
+train/CPU time: 0.07
+Optimized model for 48 steps (1.69 seconds)
+ ----------------------- GRPO Iteration 7 ----------------------- 
+Iteration 7: selected 4 echosat_sampling_group_id groups / 60 CNFs
+Solved 60 formulas in 0.33 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 960 formulas in 89.09 seconds
+Solved 60 formulas in 6.68 seconds
+Solved 60 formulas in 6.18 seconds
+Solved 60 unique plain formulas in 6.70 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 7 (train): 
+train/decisions: 123144.69
+train/conflicts: 114628.96
+train/propagations: 894229.27
+train/restarts: 1.04
+train/CPU time: 0.73
+Optimized model for 48 steps (2.94 seconds)
+ ----------------------- GRPO Iteration 8 ----------------------- 
+Iteration 8: selected 4 echosat_sampling_group_id groups / 71 CNFs
+Solved 71 formulas in 0.45 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 16.58 seconds
+Solved 71 formulas in 1.01 seconds
+Solved 71 formulas in 1.10 seconds
+Solved 71 unique plain formulas in 1.00 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 8 (train): 
+train/decisions: 11666.72
+train/conflicts: 10851.39
+train/propagations: 78832.98
+train/restarts: 1.00
+train/CPU time: 0.07
+Optimized model for 48 steps (11.93 seconds)
+ ----------------------- GRPO Iteration 9 ----------------------- 
+Iteration 9: selected 4 echosat_sampling_group_id groups / 71 CNFs
+Solved 71 formulas in 0.35 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 18.24 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 0.96 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 1.03 seconds
+Solved 71 unique plain formulas in 1.03 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 9 (train): 
+train/decisions: 12089.50
+train/conflicts: 11247.87
+train/propagations: 82919.36
+train/restarts: 1.00
+train/CPU time: 0.07
+Optimized model for 48 steps (2.19 seconds)
+Saving checkpoint at completed iteration 10
+ ----------------------- GRPO Iteration 10 ----------------------- 
+Solved 125 formulas in 0.63 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 5.68 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 6.42 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 5.77 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 10 (val): 
+val/decisions: 53206.05
+val/conflicts: 49368.13
+val/propagations: 374543.71
+val/restarts: 1.16
+val/CPU time: 0.33
+Best-checkpoint metric at iteration 10: echosat_strict_search_work_v2=-166.730667
+Best checkpoint gate failed; not saving best checkpoint for this validation.
+Iteration 10: selected 4 echosat_sampling_group_id groups / 71 CNFs
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 0.37 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 77.08 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 5.89 seconds
+Solved 71 formulas in 5.24 seconds
+Solved 71 unique plain formulas in 5.88 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 10 (train): 
+train/decisions: 89030.01
+train/conflicts: 82900.12
+train/propagations: 632224.55
+train/restarts: 1.28
+train/CPU time: 0.53
+Optimized model for 48 steps (2.70 seconds)
+ ----------------------- GRPO Iteration 11 ----------------------- 
+Iteration 11: selected 4 echosat_sampling_group_id groups / 57 CNFs
+Solved 57 formulas in 0.31 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 912 formulas in 82.76 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 57 formulas in 5.88 seconds
+Solved 57 formulas in 5.25 seconds
+Solved 57 unique plain formulas in 6.14 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 11 (train): 
+train/decisions: 122724.47
+train/conflicts: 114184.95
+train/propagations: 941734.86
+train/restarts: 1.37
+train/CPU time: 0.73
+Optimized model for 48 steps (2.21 seconds)
+ ----------------------- GRPO Iteration 12 ----------------------- 
+Iteration 12: selected 4 echosat_sampling_group_id groups / 57 CNFs
+Solved 57 formulas in 0.31 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 912 formulas in 13.52 seconds
+Solved 57 formulas in 0.92 seconds
+Solved 57 formulas in 1.02 seconds
+Solved 57 unique plain formulas in 0.91 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 12 (train): 
+train/decisions: 14557.45
+train/conflicts: 13547.45
+train/propagations: 98363.94
+train/restarts: 1.00
+train/CPU time: 0.09
+Optimized model for 48 steps (1.54 seconds)
+ ----------------------- GRPO Iteration 13 ----------------------- 
+Iteration 13: selected 4 echosat_sampling_group_id groups / 71 CNFs
+Solved 71 formulas in 0.38 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 184.86 seconds
+Solved 71 formulas in 15.11 seconds
+Solved 71 formulas in 15.14 seconds
+Solved 71 unique plain formulas in 15.13 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 13 (train): 
+train/decisions: 251648.35
+train/conflicts: 231785.90
+train/propagations: 1790582.54
+train/restarts: 1.24
+train/CPU time: 1.28
+Optimized model for 48 steps (3.12 seconds)
+ ----------------------- GRPO Iteration 14 ----------------------- 
+Iteration 14: selected 4 echosat_sampling_group_id groups / 57 CNFs
+Solved 57 formulas in 0.30 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 912 formulas in 79.29 seconds
+Solved 57 formulas in 5.96 seconds
+Solved 57 formulas in 5.17 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 57 unique plain formulas in 6.05 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 14 (train): 
+train/decisions: 114363.74
+train/conflicts: 106567.75
+train/propagations: 811714.22
+train/restarts: 1.35
+train/CPU time: 0.68
+Optimized model for 48 steps (2.13 seconds)
+Saving checkpoint at completed iteration 15
+ ----------------------- GRPO Iteration 15 ----------------------- 
+Solved 125 formulas in 0.66 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 7.21 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 6.15 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 125 formulas in 5.64 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 15 (val): 
+val/decisions: 64612.64
+val/conflicts: 59961.50
+val/propagations: 454656.25
+val/restarts: 1.20
+val/CPU time: 0.41
+Best-checkpoint metric at iteration 15: echosat_strict_search_work_v2=-168.138667
+Best checkpoint gate failed; not saving best checkpoint for this validation.
+Iteration 15: selected 4 echosat_sampling_group_id groups / 71 CNFs
+Solved 71 formulas in 0.40 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 248.80 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 17.38 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 16.97 seconds
+Solved 71 unique plain formulas in 17.87 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 15 (train): 
+train/decisions: 545393.06
+train/conflicts: 408371.39
+train/propagations: 2260377.75
+train/restarts: 1.52
+train/CPU time: 1.75
+Optimized model for 48 steps (4.17 seconds)
+ ----------------------- GRPO Iteration 16 ----------------------- 
+Iteration 16: selected 4 echosat_sampling_group_id groups / 71 CNFs
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 0.35 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 14.91 seconds
+Solved 71 formulas in 0.98 seconds
+Solved 71 formulas in 1.09 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 unique plain formulas in 1.00 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 16 (train): 
+train/decisions: 12025.84
+train/conflicts: 11175.69
+train/propagations: 84660.58
+train/restarts: 1.00
+train/CPU time: 0.07
+Optimized model for 48 steps (3.10 seconds)
+ ----------------------- GRPO Iteration 17 ----------------------- 
+Iteration 17: selected 4 echosat_sampling_group_id groups / 71 CNFs
+Solved 71 formulas in 0.38 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 1136 formulas in 14.91 seconds
+Solved 71 formulas in 1.00 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 formulas in 1.25 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 unique plain formulas in 1.07 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 17 (train): 
+train/decisions: 11388.00
+train/conflicts: 10592.41
+train/propagations: 76935.94
+train/restarts: 1.00
+train/CPU time: 0.07
+Optimized model for 48 steps (1.55 seconds)
+ ----------------------- GRPO Iteration 18 ----------------------- 
+Iteration 18: selected 4 echosat_sampling_group_id groups / 71 CNFs
+Solved 71 formulas in 0.40 seconds
+Solved 1136 formulas in 82.57 seconds
+Solved 71 formulas in 6.02 seconds
+Solved 71 formulas in 5.38 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 71 unique plain formulas in 4.15 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 18 (train): 
+train/decisions: 92634.65
+train/conflicts: 86234.92
+train/propagations: 658138.54
+train/restarts: 1.28
+train/CPU time: 0.55
+Optimized model for 48 steps (2.72 seconds)
+ ----------------------- GRPO Iteration 19 ----------------------- 
+Iteration 19: selected 4 echosat_sampling_group_id groups / 57 CNFs
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 57 formulas in 1.30 seconds
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+OMP: Error #179: Function Can't open SHM failed:
+OMP: System error #0: Undefined error: 0
+Solved 912 formulas in 14.94 seconds
+Solved 57 formulas in 1.00 seconds
+Solved 57 formulas in 1.08 seconds
+Solved 57 unique plain formulas in 1.00 seconds
+/Users/cchao/EchoSAT/RLAF/.venv/lib/python3.11/site-packages/pandas/core/nanops.py:1632: ConstantInputWarning: An input array is constant; the correlation coefficient is not defined.
+  return spearmanr(a, b)[0]
+Solver metrics at iteration 19 (train): 
+train/decisions: 17080.77
+train/conflicts: 15853.23
+train/propagations: 122823.84
+train/restarts: 1.00
+train/CPU time: 0.10
+Optimized model for 48 steps (2.23 seconds)
+Saving checkpoint at completed iteration 20

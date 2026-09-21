@@ -1,0 +1,63 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_event_var_speedup
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EventVarSpeedupFull
+model_dir: runs/${model_name}
+
+from_checkpoint: runs/GNN_Glucose_3SAT_SymmetryTraceAdapter_NegGatePermConsVC_W05/best.pt
+
+val_interval: 5
+skip_initial_val: true
+ckpt_interval: 5
+
+dataset:
+  train_path: "data/symmetry_grpo_speedup_full/train/*/*.cnf"
+  val_path: "data/symmetry_grpo_speedup_full/val/*/*.cnf"
+  lazy: True
+
+training:
+  iterations: 240
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+  kl_penalty: 0.25
+  clip_ratio: 0.2
+  feedback_input_mode: mixed_warmup
+  feedback_val_mode: model_warmup
+  feedback_model_warmup_prob: 0.5
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 20
+  feedback_warmup_cpu_lim: 5
+  feedback_warmup_num_samples: 1
+  feedback_state_momentum: 0.0
+  speedup_baseline: neutral_weighted
+  speedup_baseline_weight: 1.0
+  speedup_cpu_column: "CPU time"
+  speedup_cpu_weight: 1.0
+  speedup_conflicts_weight: 0.2
+  speedup_decisions_weight: 0.05
+  speedup_unsolved_penalty: 8.0
+  speedup_result_mismatch_penalty: 20.0
+  speedup_log_ratio_clip: 2.0
+
+solver:
+  solver: glucose
+  num_workers: 8
+  params:
+    cpu-lim: 5
+    rnd-freq: 0.0
+    K: 0.1
+
+loader:
+  batch_size: 8
+  num_workers: 0
+
+optim:
+  lr: 5.0e-6
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

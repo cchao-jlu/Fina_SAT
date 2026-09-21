@@ -1,0 +1,110 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_echosat_adapter_delta_v2_full
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_Full
+model_dir: runs/${model_name}
+
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_AdapterDelta_v2_Full/iter=235.pt
+
+skip_initial_val: true
+val_interval: 5
+ckpt_interval: 5
+
+dataset:
+  train_path: "data/echosat_symmetry_grpo_v1_canonical/train/*/*.cnf"
+  val_path: "data/echosat_symmetry_grpo_v1_canonical/val/*/*.cnf"
+  lazy: True
+
+training:
+  target_stat: echosat_cost
+  trainable_scope: event_adapter
+  echosat_target_mode: symmetry_grpo_v1
+
+  # Formal run size, not a smoke run.
+  iterations: 240
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+
+  # Canonical/order-paired grouping keeps formula-equivalent and permutation
+  # variants in the same GRPO iteration when possible.
+  echosat_sampling_mode: base_group
+  echosat_group_column: echosat_sampling_group_id
+  echosat_base_groups_per_iter: 4
+  echosat_control_base_groups_per_iter: 1
+  echosat_priority_groups_per_iter: 1
+  echosat_base_group_seed: 1729
+
+  # Low-warmup symmetry objective: reward adapter-vs-cached/static final
+  # search-work reduction, not adapter-vs-plain protocol speedup.
+  feedback_input_mode: mixed_warmup
+  feedback_val_mode: model_warmup
+  feedback_model_warmup_prob: 0.5
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 3
+  feedback_warmup_cpu_lim: 5
+  feedback_warmup_num_samples: 1
+  feedback_state_momentum: 0.0
+  feedback_event_state_features: enhanced
+  feedback_trace_lbd: 2
+
+  echosat_manifest_path: runs/analysis/echosat_symmetry_grpo_v1_canonical_manifest.csv
+  echosat_orbit_certification_path: ""
+  echosat_ratio_eps: 1.0e-6
+  echosat_delta_clip: 1.0
+  echosat_cpu_reduction_clip: 0.25
+
+  # Search-work dominates CPU. CPU is clipped to avoid cap noise.
+  echosat_decisions_weight: 0.55
+  echosat_conflicts_weight: 0.45
+  echosat_final_cpu_weight: 0.15
+  echosat_search_weight: 1.0
+  echosat_sym_weight: 1.0
+
+  # Controls and risk penalties. Random controls can never earn positive
+  # symmetry reward; they only regularize generic perturbation.
+  echosat_random_control_penalty_weight: 2.0
+  echosat_control_penalty_weight: 1.0
+  echosat_control_portfolio_weight: 0.0
+  echosat_portfolio_weight: 0.0
+  echosat_overhead_weight: 0.0
+  echosat_weighted_risk_weight: 0.75
+  echosat_static_risk_threshold: 0.1
+  echosat_near_cap_fraction: 0.8
+  echosat_near_cap_penalty_weight: 0.25
+  echosat_delta_magnitude_weight: 0.15
+  echosat_permutation_delta_weight: 0.75
+  echosat_large_weight_phase_shift_penalty_weight: 0.2
+  echosat_control_weight_delta_weight: 1.0
+  echosat_control_phase_flip_weight: 1.0
+  echosat_control_rank_change_weight: 0.5
+  echosat_event_tau: 0.0
+
+  echosat_unsolved_penalty: 8.0
+  echosat_result_mismatch_penalty: 20.0
+  echosat_strong_advantage_weight: 1.0
+  echosat_weak_advantage_weight: 0.6
+  echosat_control_advantage_weight: 0.15
+  echosat_other_advantage_weight: 0.25
+
+solver:
+  solver: glucose
+  num_workers: 8
+  params:
+    cpu-lim: 5
+    rnd-freq: 0.0
+    K: 0.1
+
+loader:
+  batch_size: 8
+  num_workers: 0
+
+optim:
+  lr: 1.0e-5
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

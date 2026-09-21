@@ -1,0 +1,30 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_echosat_symmetry_grpo_v1_7_wc1_positivecap
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_8_WC1_ObjectiveRepair
+model_dir: runs/${model_name}
+
+# v1.8 ports the dry-run objective repair into the formal target path. Keep the
+# conservative v1.2 low-warmup seed until this target has reward replay evidence.
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt
+
+training:
+  echosat_target_mode: symmetry_grpo_v1_8
+  echosat_v18_hard_negative_pressure_multiplier: 1.25
+
+  # First formal-path shakeout. Promote back to the v1.7 120-iteration size only
+  # after reward replay confirms blocked-positive clamp and hard-negative pressure.
+  iterations: 20
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+
+  save_echosat_reward_replay: true
+  save_echosat_reward_replay_every: 1
+  echosat_reward_replay_dir: runs/${model_name}/reward_replay
+
+wandb:
+  mode: disabled

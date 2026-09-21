@@ -1,0 +1,43 @@
+{
+  "base_instance_id": "php_p4_h3",
+  "expected_result": "UNSATISFIABLE",
+  "family": "php",
+  "functional": true,
+  "holes": 3,
+  "include_sign_flips": false,
+  "instance_id": "php_p4_h3_perm1730",
+  "num_clauses": 34,
+  "num_vars": 12,
+  "permutation": [
+    10,
+    5,
+    12,
+    2,
+    8,
+    1,
+    11,
+    7,
+    9,
+    3,
+    6,
+    4
+  ],
+  "pigeons": 4,
+  "sign_flips": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "source": "SAT-b-inspired symmetry stress set",
+  "transform_seed": 1730,
+  "variant": "perm_seed1730"
+}

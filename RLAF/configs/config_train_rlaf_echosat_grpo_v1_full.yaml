@@ -1,0 +1,86 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_event_var
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_GRPO_v1_Full
+model_dir: runs/${model_name}
+
+from_checkpoint: runs/GNN_Glucose_3SAT_SymmetryTraceAdapter_NegGatePermConsVC_W05/best.pt
+
+val_interval: 5
+skip_initial_val: true
+ckpt_interval: 5
+
+dataset:
+  train_path: "data/symmetry_grpo_speedup_full/train/*/*.cnf"
+  val_path: "data/symmetry_grpo_speedup_full/val/*/*.cnf"
+  lazy: True
+
+training:
+  target_stat: echosat_cost
+  iterations: 240
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+  kl_penalty: 0.25
+  clip_ratio: 0.2
+  feedback_input_mode: mixed_warmup
+  feedback_val_mode: model_warmup
+  feedback_model_warmup_prob: 0.5
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 20
+  feedback_warmup_cpu_lim: 5
+  feedback_warmup_num_samples: 1
+  feedback_state_momentum: 0.0
+
+  speedup_baseline: neutral_weighted
+  speedup_baseline_weight: 1.0
+
+  echosat_manifest_path: runs/analysis/symmetry_grpo_speedup_full_manifest.csv
+  echosat_orbit_certification_path: runs/analysis/echosat_orbit_certification.csv
+  echosat_ratio_eps: 1.0e-6
+  echosat_delta_clip: 1.0
+  echosat_final_cpu_weight: 0.4
+  echosat_search_weight: 1.0
+  echosat_decisions_weight: 0.4
+  echosat_conflicts_weight: 0.6
+  echosat_sym_weight: 1.0
+  echosat_portfolio_weight: 0.15
+  echosat_overhead_weight: 0.2
+  echosat_weighted_risk_weight: 0.5
+  echosat_control_penalty_weight: 0.3
+  echosat_delta_magnitude_weight: 0.1
+  echosat_permutation_delta_weight: 0.25
+  echosat_control_weight_delta_weight: 1.0
+  echosat_control_phase_flip_weight: 1.0
+  echosat_control_rank_change_weight: 0.5
+  echosat_static_risk_threshold: 0.1
+  echosat_near_cap_fraction: 0.8
+  echosat_event_tau: 0.0
+  echosat_unsolved_penalty: 8.0
+  echosat_result_mismatch_penalty: 20.0
+  echosat_strong_advantage_weight: 1.0
+  echosat_weak_advantage_weight: 0.6
+  echosat_control_advantage_weight: 0.25
+  echosat_other_advantage_weight: 0.35
+
+solver:
+  solver: glucose
+  num_workers: 8
+  params:
+    cpu-lim: 5
+    rnd-freq: 0.0
+    K: 0.1
+
+loader:
+  batch_size: 8
+  num_workers: 0
+
+optim:
+  lr: 5.0e-6
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

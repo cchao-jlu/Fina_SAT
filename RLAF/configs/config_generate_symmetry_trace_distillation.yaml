@@ -1,0 +1,55 @@
+# @package _global_
+
+defaults:
+  - config_generate_trace_distillation
+  - _self_
+
+model_name: GNN_Glucose_3SAT_SymmetryTraceData
+from_checkpoint: runs/GNN_Glucose_3SAT_FeedbackImprover_Balanced/best.pt
+
+model:
+  global_state_dim: 6
+  var_state_dim: 20
+
+dataset:
+  path: "data/symmetry_stress/*/*.cnf"
+  manifest: "runs/analysis/symmetry_stress_manifest.csv"
+  lazy: True
+
+trace:
+  output_path: "data/trace_distill/symmetry_event_trace.pt"
+  stats_path: "runs/analysis/symmetry_event_trace_distill_stats.csv"
+  num_samples: 1
+  max_num_batches: -1
+  use_mode: True
+  use_cuda: True
+  event_state_features: enhanced
+  state_momentum: 0.0
+  rollout_budget_type: conflicts
+  rollout_cpu_lim: 5
+  rollout_conflicts: 20
+  trace_lbd_threshold: 2
+  label:
+    low_lbd_weight: 0.35
+    useful_decision_weight: 0.25
+    conflict_rank_weight: 0.20
+    propagation_rank_weight: 0.10
+    activity_rank_weight: 0.10
+    target_scale: 1.0
+    target_delta_clip: 1.0
+    min_target_mu: -4.0
+    max_target_mu: 4.0
+    rho_loss_weight: 0.0
+    mu_loss_weight: 1.0
+
+solver:
+  solver: glucose
+  num_workers: 1
+  params:
+    cpu-lim: 5
+    rnd-freq: 0.0
+    K: 0.1
+
+loader:
+  batch_size: 1
+  num_workers: 0

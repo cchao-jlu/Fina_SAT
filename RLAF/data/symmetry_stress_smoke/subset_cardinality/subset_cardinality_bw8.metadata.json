@@ -1,0 +1,11 @@
+{
+  "expected_result": "UNSATISFIABLE",
+  "family": "subset_cardinality",
+  "instance_id": "subset_cardinality_bw8",
+  "matrix": "fixed_bandwidth_plus_corner",
+  "num_clauses": 76,
+  "num_vars": 33,
+  "size": 8,
+  "source": "SAT-b-inspired symmetry stress set",
+  "variant": "base"
+}

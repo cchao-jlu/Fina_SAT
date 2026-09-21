@@ -1,0 +1,214 @@
+method: grpo
+model_name: GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1
+model_dir: runs/GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt
+val_interval: 5
+ckpt_interval: 5
+training:
+  iterations: 20
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  clip_ratio: 0.2
+  beta: 1.0
+  kl_penalty: 0.25
+  target_stat: echosat_cost
+  num_samples: 16
+  use_amp: true
+  feedback_input_mode: model_warmup
+  feedback_val_mode: model_warmup
+  feedback_model_warmup_prob: 1.0
+  feedback_warmup_cpu_lim: 5
+  feedback_warmup_num_samples: 1
+  feedback_random_weight: 1.0
+  composite_cpu_weight: 1.0
+  composite_conflicts_weight: 0.3
+  composite_decisions_weight: 0.05
+  composite_unsolved_penalty: 0.0
+  speedup_baseline: neutral_weighted
+  speedup_baseline_weight: 1.0
+  speedup_cpu_column: CPU time
+  speedup_cpu_weight: 1.0
+  speedup_conflicts_weight: 0.2
+  speedup_decisions_weight: 0.05
+  speedup_unsolved_penalty: 8.0
+  speedup_result_mismatch_penalty: 20.0
+  speedup_ratio_eps: 1.0e-06
+  speedup_log_ratio_clip: 2.0
+  feedback_state_type: event_var
+  feedback_event_state_features: enhanced
+  feedback_state_momentum: 0.0
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 1
+  feedback_trace_lbd: 2
+  echosat_manifest_path: runs/analysis/echosat_symmetry_grpo_v1_canonical_manifest.csv
+  echosat_orbit_certification_path: runs/analysis/echosat_v2_orbit_certification.csv
+  echosat_ratio_eps: 1.0e-06
+  echosat_delta_clip: 1.0
+  echosat_final_cpu_weight: 0.0
+  echosat_search_weight: 1.0
+  echosat_decisions_weight: 0.55
+  echosat_conflicts_weight: 0.45
+  echosat_sym_weight: 1.0
+  echosat_portfolio_weight: 0.0
+  echosat_overhead_weight: 0.0
+  echosat_weighted_risk_weight: 1.5
+  echosat_control_penalty_weight: 3.5
+  echosat_delta_magnitude_weight: 0.5
+  echosat_permutation_delta_weight: 2.5
+  echosat_control_weight_delta_weight: 3.5
+  echosat_control_phase_flip_weight: 3.5
+  echosat_control_rank_change_weight: 2.0
+  echosat_static_risk_threshold: 0.1
+  echosat_near_cap_fraction: 0.8
+  echosat_event_tau: 0.0
+  echosat_unsolved_penalty: 8.0
+  echosat_result_mismatch_penalty: 20.0
+  echosat_strong_advantage_weight: 1.0
+  echosat_weak_advantage_weight: 0.6
+  echosat_control_advantage_weight: 0.0
+  echosat_other_advantage_weight: 0.0
+  trainable_scope: event_adapter
+  echosat_target_mode: symmetry_grpo_v2
+  echosat_sampling_mode: base_group
+  echosat_base_groups_per_iter: 4
+  echosat_control_base_groups_per_iter: 1
+  echosat_base_group_seed: 1729
+  echosat_static_reference_weight: 0.0
+  echosat_static_reference_cpu_weight: 0.0
+  echosat_control_portfolio_weight: 0.0
+  echosat_group_column: echosat_sampling_group_id
+  echosat_priority_groups_per_iter: 2
+  echosat_cpu_reduction_clip: 0.05
+  echosat_random_control_penalty_weight: 7.5
+  echosat_near_cap_penalty_weight: 1.0
+  echosat_large_weight_phase_shift_penalty_weight: 2.0
+  echosat_search_eps_decisions: 0.0
+  echosat_search_eps_conflicts: 0.0
+  echosat_decision_blowup_penalty_weight: 3.0
+  echosat_conflict_blowup_penalty_weight: 3.0
+  echosat_weighted_risk_positive_threshold: 0.0
+  best_checkpoint_metric: echosat_strict_search_work_v2
+  best_checkpoint_anchor_base_ids:
+  - k9_color8
+  - php_p9_h8
+  best_checkpoint_hard_recovery_base_ids:
+  - k10_color9
+  - php_p10_h9
+  best_checkpoint_subset_failure_base_id: subset_cardinality_bw12
+  best_checkpoint_subset_failure_variant: perm_seed1730
+  best_checkpoint_anchor_weight: 3.0
+  best_checkpoint_hard_recovery_weight: 2.0
+  best_checkpoint_strong_symmetry_weight: 1.0
+  best_checkpoint_random_control_penalty_weight: 2.0
+  best_checkpoint_subset_failure_penalty_weight: 1.0
+  best_checkpoint_search_blowup_penalty_weight: 1.0
+  echosat_mixed_group_negative_scale: 2.0
+  echosat_mixed_group_positive_scale: 0.35
+  echosat_suppress_mixed_group_positive: false
+  echosat_hard_negative_base_ids:
+  - k10_color9
+  - php_p10_h9
+  - subset_cardinality_bw12
+  echosat_hard_negative_penalty_weight: 8.0
+  echosat_anchor_base_ids:
+  - k9_color8
+  - php_p9_h8
+  echosat_anchor_failure_penalty_weight: 8.0
+  echosat_anchor_failure_floor: 0.5
+  echosat_subset_failure_base_id: subset_cardinality_bw12
+  echosat_subset_failure_variant: perm_seed1730
+  echosat_suppress_subset_failure_positive: true
+  echosat_subset_failure_penalty_weight: 8.0
+  echosat_subset_failure_floor: 1.5
+  echosat_val_manifest_path: runs/analysis/echosat_symmetry_grpo_v1_4_strictbest_val_manifest.csv
+  best_checkpoint_require_gate_pass: true
+  best_checkpoint_anchor_required_min: 1.0
+  best_checkpoint_hard_recovery_required_min: 0.6666666667
+  best_checkpoint_random_control_max: 0.05
+  best_checkpoint_subset_failure_max: 0.0
+  best_checkpoint_search_blowup_max: 1.0
+  best_checkpoint_gate_penalty_weight: 100.0
+  save_echosat_reward_replay: true
+  save_echosat_reward_replay_every: 1
+  echosat_reward_replay_dir: runs/GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1/reward_replay
+  echosat_control_negative_advantage_weight: 1.0
+  echosat_v15_pair_mixed_advantage_hard_clamp: false
+  echosat_v15_suppress_mixed_group_positive: true
+  echosat_v15_suppress_anchor_failure_positive: true
+  echosat_v15_suppress_hard_negative_failure_positive: true
+  echosat_anchor_catastrophic_failure_floor: 2.0
+  echosat_hard_negative_failure_floor: 1.25
+  echosat_pair_rank_penalty_weight: 1.0
+  echosat_v16_hard_block_mixed_positive: false
+  echosat_v17_positive_consistency_penalty_fraction: 0.15
+  echosat_v17_positive_large_shift_penalty_fraction: 0.2
+  echosat_v18_hard_negative_pressure_multiplier: 1.25
+  echosat_replay_only: false
+  echosat_compatible_checkpoint_init: true
+  echosat_orbit_variable_path: runs/analysis/echosat_v2_orbit_variables.csv
+dataset:
+  train_path: data/echosat_symmetry_grpo_v1_canonical/train/*/*.cnf
+  val_path: '@runs/analysis/echosat_symmetry_grpo_v1_4_strictbest_val_files.txt'
+  lazy: true
+solver:
+  solver: glucose
+  num_workers: 8
+  params:
+    cpu-lim: 5
+    rnd-freq: 0.0
+    K: 0.1
+model:
+  channels: 256
+  num_layers: 10
+  global_state_dim: 6
+  aggr:
+  - mean
+  feature_encoder: mlp
+  dropout: 0.0
+  feature_set: rich
+  separate_encoders: true
+  learnable_sigma: true
+  var_state_dim: 20
+  event_adapter:
+    enabled: true
+    hidden_dim: 128
+    fusion: weight_only_residual
+    delta_scale: 1.0
+    delta_clip: 0.25
+    gate_indices:
+    - 2
+    - 3
+    - 7
+    - 8
+    - 12
+    - 13
+    - 17
+    - 18
+    graph_gate_indices: null
+    graph_gate_threshold: null
+    base_rho_gate_threshold: null
+    selector_feature_names: null
+    selector_weights: null
+    selector_bias: 0.0
+    selector_threshold: 0.5
+    selector_feature_mean: null
+    selector_feature_std: null
+    orbit_feature_dim: 10
+    orbit_event_state_dim: 100
+    require_valid_orbit: true
+    min_orbit_event_variance: 1.0e-06
+scale_sigma: 0.1
+loader:
+  batch_size: 8
+  num_workers: 0
+optim:
+  lr: 3.0e-06
+  weight_decay: 0.0
+wandb:
+  project: RLAF
+  name: GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1
+  mode: disabled
+work_dir: /Users/cchao/EchoSAT/RLAF
+data_dir: data
+seed: 0
+skip_initial_val: false

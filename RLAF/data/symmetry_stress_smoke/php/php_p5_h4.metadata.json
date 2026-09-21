@@ -1,0 +1,12 @@
+{
+  "expected_result": "UNSATISFIABLE",
+  "family": "php",
+  "functional": true,
+  "holes": 4,
+  "instance_id": "php_p5_h4",
+  "num_clauses": 75,
+  "num_vars": 20,
+  "pigeons": 5,
+  "source": "SAT-b-inspired symmetry stress set",
+  "variant": "base"
+}

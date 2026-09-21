@@ -1,0 +1,115 @@
+method: grpo
+model_name: GNN_Glucose_3SAT_SymmetryTraceAdapter_NegGatePermConsVC_W05
+model_dir: runs/GNN_Glucose_3SAT_SymmetryTraceAdapter_NegGatePermConsVC_W05
+from_checkpoint: runs/GNN_Glucose_3SAT_FeedbackImprover_Balanced/best.pt
+val_interval: 5
+ckpt_interval: null
+training:
+  iterations: 2000
+  cnf_per_iter: 100
+  steps_per_iter: 50
+  clip_ratio: 0.2
+  beta: 1.0
+  kl_penalty: 0.1
+  target_stat: composite
+  num_samples: 40
+  use_amp: false
+  feedback_input_mode: mixed_warmup
+  feedback_val_mode: model_warmup
+  feedback_model_warmup_prob: 0.5
+  feedback_warmup_cpu_lim: 2
+  feedback_warmup_num_samples: 1
+  feedback_random_weight: 1.0
+  composite_cpu_weight: 1.0
+  composite_conflicts_weight: 0.3
+  composite_decisions_weight: 0.05
+  feedback_state_type: event_var
+  feedback_event_state_features: enhanced
+  feedback_state_momentum: 0.5
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 500
+  epochs: 30
+  freeze_backbone: true
+  use_cuda: false
+  ckpt_interval: null
+dataset:
+  train_path: data/training/3sat/*/*.cnf
+  val_path: data/validation/3sat/*/*.cnf
+  lazy: true
+solver:
+  solver: glucose
+  num_workers: 8
+  params:
+    cpu-lim: 60
+    rnd-freq: 0.0
+    K: 0.1
+model:
+  channels: 256
+  num_layers: 10
+  global_state_dim: 6
+  aggr:
+  - mean
+  feature_encoder: mlp
+  dropout: 0.0
+  feature_set: rich
+  separate_encoders: true
+  learnable_sigma: true
+  var_state_dim: 20
+  event_adapter:
+    enabled: true
+    hidden_dim: 128
+    fusion: residual
+    delta_scale: 1.0
+    delta_clip: 1.0
+    gate_indices: []
+    graph_gate_indices:
+    - 0
+    - 2
+    graph_gate_threshold: 1.0e-09
+    base_rho_gate_threshold: null
+    selector_feature_names: null
+    selector_weights: null
+    selector_bias: 0.0
+    selector_threshold: 0.5
+    selector_feature_mean: null
+    selector_feature_std: null
+scale_sigma: 0.1
+loader:
+  batch_size: 8
+  num_workers: 0
+optim:
+  lr: 0.0005
+  weight_decay: 0.0
+wandb:
+  project: RLAF
+  name: GNN_Glucose_3SAT_SymmetryTraceAdapter_NegGatePermConsVC_W05
+work_dir: /home/sunshixin/chenchao/my_rlaf
+data_dir: data
+seed: 0
+trace:
+  data_path: data/trace_distill/symmetry_event_trace.pt
+  relabel: true
+  label:
+    low_lbd_weight: 0.35
+    useful_decision_weight: 0.25
+    conflict_rank_weight: 0.2
+    propagation_rank_weight: 0.1
+    activity_rank_weight: 0.1
+    target_scale: 1.0
+    target_delta_clip: 1.0
+    min_target_mu: -4.0
+    max_target_mu: 4.0
+    rho_loss_weight: 0.0
+    mu_loss_weight: 1.0
+    no_activity_negative_weight: 2.0
+    no_activity_gate_indices:
+    - 0
+    - 2
+    no_activity_gate_eps: 1.0e-09
+    no_activity_negative_rho_loss_weight: 0.0
+    no_activity_negative_mu_loss_weight: 1.0
+    permutation_consistency_weight: 0.5
+    permutation_consistency_rho_loss_weight: 0.0
+    permutation_consistency_mu_loss_weight: 1.0
+    permutation_consistency_max_pairs_per_epoch: null
+  permutation_manifest_path: runs/analysis/symmetry_stress_manifest.csv

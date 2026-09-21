@@ -1,0 +1,35 @@
+{
+  "canonical_split_rows": {
+    "train": 1124,
+    "val": 275
+  },
+  "regression_overlap": {
+    "base_instance_id": {
+      "train_overlap": 6,
+      "validation_unique": 9
+    },
+    "formula_equivalence_group": {
+      "train_overlap": 2,
+      "validation_unique": 2
+    },
+    "instance_id": {
+      "train_overlap": 74,
+      "validation_unique": 125
+    }
+  },
+  "stage4": {
+    "blocked_positive": 0,
+    "eligible": 82,
+    "plain_solved_guided_unsolved": 6,
+    "positive_advantage": 37,
+    "rows": 1184
+  },
+  "stage5": {
+    "blocked_positive": 0,
+    "eligible": 2048,
+    "plain_solved_guided_unsolved": 521,
+    "positive_advantage": 872,
+    "rows": 21072
+  },
+  "stage5_replay_files": 20
+}

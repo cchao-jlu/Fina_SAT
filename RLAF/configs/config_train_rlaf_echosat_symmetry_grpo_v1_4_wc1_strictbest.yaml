@@ -1,0 +1,58 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_echosat_symmetry_grpo_v1_3_wc1_continuation
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_4_WC1_StrictBest
+model_dir: runs/${model_name}
+
+# v1.3 targeted acceptance showed that the online best checkpoint was not the
+# strict wc1 acceptance winner. Restart from the same v1.2 iter=15 seed rather
+# than continuing from v1.3 best/late checkpoints.
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt
+
+skip_initial_val: false
+val_interval: 5
+ckpt_interval: 5
+
+dataset:
+  val_path: "@runs/analysis/echosat_symmetry_grpo_v1_4_strictbest_val_files.txt"
+
+training:
+  echosat_target_mode: symmetry_grpo_v1_4
+  echosat_val_manifest_path: runs/analysis/echosat_symmetry_grpo_v1_4_strictbest_val_manifest.csv
+  best_checkpoint_metric: echosat_strict_search_work_v2
+  best_checkpoint_require_gate_pass: true
+
+  # Formal continuation size. This is not a smoke run.
+  iterations: 120
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+
+  # Hard gates for saving best.pt. These mirror the post-training targeted
+  # acceptance checks; failing checkpoints are still saved as iter=*.pt.
+  best_checkpoint_anchor_required_min: 1.0
+  best_checkpoint_hard_recovery_required_min: 0.6666666667
+  best_checkpoint_random_control_max: 0.05
+  best_checkpoint_subset_failure_max: 0.0
+  best_checkpoint_search_blowup_max: 1.0
+  best_checkpoint_gate_penalty_weight: 100.0
+
+  # Keep v1.3 reward behavior unchanged; v1.4 mainly fixes online best
+  # checkpoint selection so best.pt cannot be selected by timing/generic effects.
+  echosat_anchor_failure_penalty_weight: 2.0
+  echosat_hard_negative_penalty_weight: 3.0
+  echosat_subset_failure_penalty_weight: 3.0
+  echosat_decision_blowup_penalty_weight: 2.5
+  echosat_conflict_blowup_penalty_weight: 2.5
+  echosat_random_control_penalty_weight: 5.0
+  echosat_control_advantage_weight: 0.0
+
+optim:
+  lr: 3.0e-6
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

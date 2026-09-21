@@ -1,0 +1,88 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_echosat_symmetry_grpo_v1_1_full
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full
+model_dir: runs/${model_name}
+
+# Time-slice audit showed the clearest complete_coloring/php search-work signal
+# around v1.1 iter=85, while later checkpoints did not improve monotonically.
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_1_Full/iter=85.pt
+
+training:
+  echosat_target_mode: symmetry_grpo_v1_2
+  best_checkpoint_metric: echosat_strict_search_work
+  best_checkpoint_anchor_base_ids:
+    - k9_color8
+    - php_p9_h8
+  best_checkpoint_hard_recovery_base_ids:
+    - k10_color9
+    - php_p10_h9
+  best_checkpoint_subset_failure_base_id: subset_cardinality_bw12
+  best_checkpoint_subset_failure_variant: perm_seed1730
+  best_checkpoint_anchor_weight: 3.0
+  best_checkpoint_hard_recovery_weight: 2.0
+  best_checkpoint_strong_symmetry_weight: 1.0
+  best_checkpoint_random_control_penalty_weight: 2.0
+  best_checkpoint_subset_failure_penalty_weight: 1.0
+  best_checkpoint_search_blowup_penalty_weight: 1.0
+
+  # Keep this pass focused on the low-cost warmup setting that preserved signal
+  # best in the time-slice audit.
+  feedback_input_mode: model_warmup
+  feedback_val_mode: model_warmup
+  feedback_model_warmup_prob: 1.0
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 1
+  feedback_warmup_cpu_lim: 5
+
+  # Formal run size. This is not a smoke configuration.
+  iterations: 240
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+
+  # Keep priority formula-equivalent and known-failure groups in each iteration
+  # more often, while retaining one random-control group for robustness penalty.
+  echosat_base_groups_per_iter: 4
+  echosat_control_base_groups_per_iter: 1
+  echosat_priority_groups_per_iter: 2
+
+  # Strict search-work objective. CPU remains disabled as a positive reward.
+  echosat_decisions_weight: 0.55
+  echosat_conflicts_weight: 0.45
+  echosat_final_cpu_weight: 0.0
+  echosat_search_eps_decisions: 0.0
+  echosat_search_eps_conflicts: 0.0
+
+  # Stronger penalties for the failure modes exposed by canonical low-warmup
+  # validation: mixed order-pair directions and known hard negatives.
+  echosat_decision_blowup_penalty_weight: 2.0
+  echosat_conflict_blowup_penalty_weight: 2.0
+  echosat_permutation_delta_weight: 3.0
+  echosat_mixed_group_negative_scale: 2.0
+  echosat_mixed_group_positive_scale: 1.0
+  echosat_suppress_mixed_group_positive: true
+  echosat_hard_negative_base_ids:
+    - k10_color9
+    - php_p10_h9
+    - subset_cardinality_bw12
+  echosat_hard_negative_penalty_weight: 2.0
+
+  # Random controls remain penalty-only: no positive symmetry reward and no
+  # positive advantage after the v1.1/v1.2 advantage clamp.
+  echosat_random_control_penalty_weight: 4.0
+  echosat_control_penalty_weight: 2.0
+  echosat_large_weight_phase_shift_penalty_weight: 1.0
+  echosat_control_weight_delta_weight: 2.0
+  echosat_control_phase_flip_weight: 2.0
+  echosat_control_rank_change_weight: 1.0
+
+optim:
+  lr: 1.0e-5
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

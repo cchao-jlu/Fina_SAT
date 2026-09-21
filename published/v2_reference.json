@@ -1,0 +1,27 @@
+{
+  "artifacts": [
+    {
+      "path": "docs/echosat_runtime_v12_canonical_low_warmup.md",
+      "sha256": "b109b8c95879f52b0ed269a6fb9a478f77201db3e069e52047088a9d6240d244",
+      "size_bytes": 9064
+    },
+    {
+      "path": "runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt",
+      "sha256": "7178b77c3eecbdc8b37a1d0240237d5dedec81801e36679ceeb67b0b3114ecf7",
+      "size_bytes": 20903702
+    },
+    {
+      "path": "runs/analysis/echosat_orbit_certification.csv",
+      "sha256": "a1d4047f37f0c187981378911d993de62f48409cc9ff1f0292f7e15d191fd65e",
+      "size_bytes": 23793960
+    },
+    {
+      "path": "runs/analysis/echosat_symmetry_grpo_v1_canonical_manifest.csv",
+      "sha256": "12da0273246024355159ef75be7009671d62081453b74a2f11a86b02afe492da",
+      "size_bytes": 1636431
+    }
+  ],
+  "purpose": "EchoSAT v2 Stage 0-4 frozen reference",
+  "reference_checkpoint": "v1.2_iter15_wc1",
+  "schema_version": 1
+}

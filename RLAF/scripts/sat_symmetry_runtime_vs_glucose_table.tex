@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+
+\begin{document}
+
+\begin{table}[t]
+\centering
+\caption{Runtime comparison against plain Glucose on SAT symmetry targets. Negative $\Delta$ means EchoSAT is faster.}
+\label{tab:sat_symmetry_runtime_vs_glucose}
+\begin{tabular}{llrrrrr}
+\toprule
+Family & Instance & Plain Glucose (s) & EchoSAT (s) & $\Delta$ (s) & Relative Change & Search-OK \\
+\midrule
+php & php family & 2.5479 & 2.2108 & -0.3371 & +13.23\% & 0.8333 \\
+complete\_coloring & complete\_coloring family & 1.3344 & 1.3966 & +0.0622 & -4.66\% & 0.6667 \\
+subset\_cardinality & subset\_cardinality family & 0.0019 & 0.0687 & +0.0667 & slower & 0.1111 \\
+\midrule
+php & php\_p10\_h9 & 4.4983 & 3.6535 & -0.8448 & +18.78\% & 0.6667 \\
+complete\_coloring & k10\_color9 & 4.6201 & 4.4080 & -0.2120 & +4.59\% & 0.3333 \\
+complete\_coloring & k9\_color8 & 0.4682 & 0.4714 & +0.0032 & -0.69\% & 1.0000 \\
+php & php\_p9\_h8 & 0.4755 & 0.4802 & +0.0047 & -0.99\% & 1.0000 \\
+subset\_cardinality & bw8 & 0.0017 & 0.0388 & +0.0372 & slower & 0.3333 \\
+subset\_cardinality & bw12 & 0.0022 & 0.0625 & +0.0604 & slower & 0.0000 \\
+subset\_cardinality & bw10 & 0.0019 & 0.1047 & +0.1027 & slower & 0.0000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage[paperwidth=16in,paperheight=4.8in,margin=0.15in]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit}
+\pagestyle{empty}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\small,
+    node distance=8mm and 10mm,
+    block/.style={draw, rounded corners=2pt, align=center, minimum height=8mm, minimum width=28mm, fill=blue!5},
+    solver/.style={draw, rounded corners=2pt, align=center, minimum height=8mm, minimum width=29mm, fill=red!6},
+    state/.style={draw, rounded corners=2pt, align=center, minimum height=8mm, minimum width=31mm, fill=orange!10},
+    out/.style={draw, rounded corners=2pt, align=center, minimum height=8mm, minimum width=29mm, fill=green!8},
+    loss/.style={draw, rounded corners=2pt, align=center, minimum height=8mm, minimum width=38mm, fill=purple!7},
+    arrow/.style={-{Latex[length=2.2mm]}, thick}
+]
+
+\node[block] (graph) {CNF graph\\$G$};
+\node[block, above right=8mm and 12mm of graph] (random) {Random warmup\\guidance};
+\node[block, below right=8mm and 12mm of graph] (model) {Model warmup\\guidance};
+\node[state, right=20mm of graph] (mix) {Mixed warmup\\$p_{\mathrm{model}}=0.5$};
+\node[solver, right=of mix] (warmup) {SAT solver\\short rollout};
+\node[state, right=of warmup] (z) {Global state\\$z=\phi(s)$};
+\node[block, below=13mm of z] (gnn) {Feedback improver\\one GNN forward};
+\node[out, left=of gnn] (sample) {Sample $K$ refined\\guidance candidates};
+\node[solver, left=of sample] (solve) {SAT solver\\final runs};
+\node[loss, left=of solve] (reward) {Composite cost\\$\log(1+t)+0.4\log(1+c)+0.05\log(1+d)$};
+\node[loss, below=of sample] (grpo) {GRPO update};
+
+\draw[arrow] (graph) -- (mix);
+\draw[arrow] (random) -- (mix);
+\draw[arrow] (model) -- (mix);
+\draw[arrow] (mix) -- (warmup);
+\draw[arrow] (warmup) -- (z);
+\draw[arrow] (z) -- (gnn);
+\draw[arrow] (graph.south) |- (gnn.west);
+\draw[arrow] (gnn) -- (sample);
+\draw[arrow] (sample) -- (solve);
+\draw[arrow] (solve) -- (reward);
+\draw[arrow] (reward.south) |- (grpo.west);
+\draw[arrow] (grpo.east) -- (gnn.south);
+
+\node[draw, rounded corners=2pt, fit=(random)(model)(mix)(warmup)(z), inner sep=4mm,
+      label={[font=\small]above:Training input state generation}] {};
+\node[draw, rounded corners=2pt, fit=(gnn)(sample)(solve)(reward)(grpo), inner sep=4mm,
+      label={[font=\small]below:One-step improver training}] {};
+
+\end{tikzpicture}
+\end{document}

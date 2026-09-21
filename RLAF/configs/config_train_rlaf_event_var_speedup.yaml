@@ -1,0 +1,49 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_event_var
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EventVarSpeedupProbe
+
+training:
+  target_stat: speedup_cost
+  iterations: 80
+  cnf_per_iter: 24
+  steps_per_iter: 24
+  num_samples: 8
+  kl_penalty: 0.2
+  feedback_input_mode: mixed_warmup
+  feedback_val_mode: model_warmup
+  feedback_warmup_budget_type: conflicts
+  feedback_warmup_conflicts: 20
+  feedback_warmup_cpu_lim: 5
+  feedback_trace_lbd: 2
+  speedup_baseline: neutral_weighted
+  speedup_baseline_weight: 1.0
+  speedup_cpu_column: "CPU time"
+  speedup_cpu_weight: 1.0
+  speedup_conflicts_weight: 0.2
+  speedup_decisions_weight: 0.05
+  speedup_unsolved_penalty: 8.0
+  speedup_result_mismatch_penalty: 20.0
+  speedup_log_ratio_clip: 2.0
+
+solver:
+  solver: glucose
+  num_workers: 8
+  params:
+    cpu-lim: 5
+    rnd-freq: 0.0
+    K: 0.1
+
+loader:
+  batch_size: 8
+  num_workers: 0
+
+optim:
+  lr: 1.0e-5
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

@@ -1,0 +1,178 @@
+# SAT Symmetry Solver Protocol Preflight
+
+This is a protocol and accounting preflight for event-conditioned SAT symmetry guidance.
+It is not a solver speedup claim. The purpose is to verify that the solver-level
+pipeline can run while explicitly accounting for warmup rollout, event extraction/attach,
+adapter inference, and the final solve.
+
+## Inputs
+
+- checkpoint: `/home/sunshixin/chenchao/my_rlaf/runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt`
+- manifest: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_runtime_v12_canonical_manifest.csv`
+- event-role rows: `45` distinct CNFs
+- repeats: `3`
+- solver seed base: `1`
+- warmup seed base: `1`
+- final seed base: `1`
+- static-only rows included: `False`
+- final CPU limit: `10.0` seconds
+- warmup CPU limit: `5.0` seconds
+- warmup conflict limit: `3`
+- trace LBD threshold: `2`
+- variants included: `base,perm_seed1730,perm_seed1731`
+- permutation variants included: `True`
+- neutral weighted baseline: phase `1.0`, weight `1.0`
+- weighted solver no-pre: `False`
+- solver path role: `patched_pretrue_main`
+
+## Method Semantics
+
+- `plain_unguided_glucose`: plain Glucose final solve, no weighted input path and no model inference.
+- `neutral_weighted_glucose`: weighted Glucose binary with all variables assigned the same phase/weight.
+- `static_weighted_glucose`: W0.5 checkpoint static/base guidance, then weighted Glucose final solve.
+- `cached_trace_no_adapter_final`: pays static inference, event-collecting warmup, and event attach; the final solve reuses the static guidance and does not run adapter inference.
+- `event_adapter_final`: pays static inference, event-collecting warmup, event attach, adapter inference, and weighted Glucose final solve.
+
+`neutral_weighted_glucose` is not bit-identical to plain Glucose. It isolates the
+weighted binary / weighted input parsing path from the learned static and event weights.
+
+`cached_trace_no_adapter_final` is the required ablation for separating event collection cost
+from the adapter's effect on final variable weights.
+
+`patched_pretrue_main` is the main patched weighted Glucose path. `weighted_no_pre_diagnostic` is only a diagnostic path for isolating preprocessing effects; do not merge it with the main runtime protocol.
+
+Permutation variants are not treated as independent evidence in the attribution tables;
+those summaries are grouped by `base_instance_id`.
+
+## Artifacts
+
+- per-instance CSV: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_symmetry_grpo_v1_7_acceptance_v1_2_iter15_canonical_low_warmup_wc3_per_instance.csv`
+- phase accounting CSV: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_symmetry_grpo_v1_7_acceptance_v1_2_iter15_canonical_low_warmup_wc3_phases.csv`
+- family summary CSV: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_symmetry_grpo_v1_7_acceptance_v1_2_iter15_canonical_low_warmup_wc3_by_family.csv`
+- base-instance paired summary CSV: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_symmetry_grpo_v1_7_acceptance_v1_2_iter15_canonical_low_warmup_wc3_by_base_instance.csv`
+- attribution CSV: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_symmetry_grpo_v1_7_acceptance_v1_2_iter15_canonical_low_warmup_wc3_attribution.csv`
+- base-instance attribution CSV: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_symmetry_grpo_v1_7_acceptance_v1_2_iter15_canonical_low_warmup_wc3_attribution_by_base.csv`
+- guided-loss diagnostics CSV: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_symmetry_grpo_v1_7_acceptance_v1_2_iter15_canonical_low_warmup_wc3_guided_loss_diagnostics.csv`
+- timeout/correctness CSV: `/home/sunshixin/chenchao/my_rlaf/runs/analysis/echosat_symmetry_grpo_v1_7_acceptance_v1_2_iter15_canonical_low_warmup_wc3_timeout_correctness.csv`
+
+## Coverage
+
+| family | instances | base_instances | control_types | scales | benchmark_roles | symmetry_strengths |
+| --- | --- | --- | --- | --- | --- | --- |
+| complete_coloring | 9 | 3 | strong_symmetry | large | main | strong |
+| php | 6 | 2 | strong_symmetry | large | main | strong |
+| random_3sat_control | 21 | 7 | non_symmetric_control | large | control | none |
+| subset_cardinality | 9 | 3 | weak_symmetry | large,medium | main | weak |
+
+## Overall Method Accounting
+
+`known_expected_instances` excludes rows whose manifest `expected_result` is `UNKNOWN`;
+`known_expected_match_instances` is the correctness count on the remaining SAT/UNSAT-labelled rows.
+
+| method | rows | solved_instances | known_expected_instances | known_expected_match_instances | protocol_supported_instances | events_available_instances | mean_protocol_accounted_time | median_protocol_accounted_time | mean_final_cpu_time | mean_warmup_cpu_time | mean_adapter_inference_wall_time |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| plain_unguided_glucose | 135 | 135 | 72 | 72 | 135 | 0 | 1.307 | 0.4938 | 1.307 | 0 | 0 |
+| neutral_weighted_glucose | 135 | 135 | 72 | 72 | 135 | 0 | 1.126 | 0.4835 | 1.126 | 0 | 0 |
+| static_weighted_glucose | 135 | 135 | 72 | 72 | 135 | 0 | 0.998 | 0.1749 | 0.8827 | 0 | 0 |
+| cached_trace_no_adapter_final | 135 | 135 | 72 | 72 | 135 | 135 | 1.004 | 0.1788 | 0.8827 | 0.005396 | 0 |
+| event_adapter_final | 135 | 135 | 72 | 72 | 135 | 135 | 1.08 | 0.3216 | 0.955 | 0.005396 | 0.003255 |
+
+## Event Accounting
+
+| event_method_rows | events_available_rows | protocol_supported_rows | mean_warmup_cpu_time | mean_event_attach_wall_time | mean_adapter_inference_wall_time |
+| --- | --- | --- | --- | --- | --- |
+| 270 | 270 | 270 | 0.005396 | 0.0008845 | 0.001628 |
+
+## Attribution Modes
+
+| primary_attribution | rows | base_instances | variants |
+| --- | --- | --- | --- |
+| event_collection_overhead_only | 135 | 15 | 3 |
+
+## Fixed Attribution Matrix
+
+The runtime v1 deltas are paired within `(repeat_id, base_instance_id, variant, instance_id)`:
+
+- `weighted_binary_input_delta = neutral_weighted_glucose - plain_unguided_glucose`
+- `static_weights_delta = static_weighted_glucose - neutral_weighted_glucose`
+- `event_collection_overhead_delta = cached_trace_no_adapter_final - static_weighted_glucose`
+- `adapter_delta_inference_delta = event_adapter_final - cached_trace_no_adapter_final`
+
+| attribution_delta | mean_delta |
+| --- | --- |
+| weighted_binary_input_delta_final_cpu | -0.1805 |
+| weighted_binary_input_delta_protocol_time | -0.1805 |
+| static_weights_delta_final_cpu | -0.2435 |
+| static_weights_delta_protocol_time | -0.1282 |
+| event_collection_overhead_delta_final_cpu | 0 |
+| event_collection_overhead_delta_protocol_time | 0.006281 |
+| adapter_delta_inference_delta_final_cpu | 0.07224 |
+| adapter_delta_inference_delta_protocol_time | 0.0755 |
+| adapter_inference_wall_time | 0.003255 |
+
+## Attribution Matrix By Stratum
+
+| control_type | scale | weighted_binary_input_delta_final_cpu | weighted_binary_input_delta_protocol_time | static_weights_delta_final_cpu | static_weights_delta_protocol_time | event_collection_overhead_delta_final_cpu | event_collection_overhead_delta_protocol_time | adapter_delta_inference_delta_final_cpu | adapter_delta_inference_delta_protocol_time | adapter_inference_wall_time |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| non_symmetric_control | large | -0.3101 | -0.3101 | -0.4883 | -0.3388 | 0 | 0.00654 | 0.07936 | 0.08307 | 0.003705 |
+| strong_symmetry | large | -0.108 | -0.108 | -0.04635 | 0.05281 | 0 | 0.008348 | 0.1056 | 0.1088 | 0.003184 |
+| weak_symmetry | large | 0.001345 | 0.001345 | -0.0009257 | 0.07563 | 0 | 0.002353 | -0.0002958 | 0.002208 | 0.002504 |
+| weak_symmetry | medium | -8.111e-06 | -8.111e-06 | -0.0007972 | 0.0325 | 0 | 0.001983 | 0.00073 | 0.002691 | 0.001961 |
+
+## Base-Instance Attribution
+
+| family | base_instance_id | repeats | variants | plain_solved_rows | neutral_lost_rows | static_lost_rows | adapter_lost_rows | weighted_binary_input_delta_protocol_time_mean | static_weights_delta_protocol_time_mean | event_collection_overhead_delta_protocol_time_mean | adapter_delta_inference_delta_protocol_time_mean | warmup_decisions_mean | warmup_conflicts_mean | graph_gate_open_rows | primary_attribution_modes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| complete_coloring | k10_color9 | 3 | 3 | 9 | 0 | 0 | 0 | -0.2989 | -0.03425 | 0.01046 | 0.4066 | 9 | 3 | 9 | event_collection_overhead_only |
+| complete_coloring | k8_color7 | 3 | 3 | 9 | 0 | 0 | 0 | 0.004378 | 0.09956 | 0.005682 | -0.01023 | 7 | 3 | 9 | event_collection_overhead_only |
+| complete_coloring | k9_color8 | 3 | 3 | 9 | 0 | 0 | 0 | 0.04757 | 0.09064 | 0.007041 | -0.142 | 8.667 | 3 | 9 | event_collection_overhead_only |
+| php | php_p10_h9 | 3 | 3 | 9 | 0 | 0 | 0 | -0.3314 | 0.0214 | 0.0094 | 0.4192 | 9 | 3 | 9 | event_collection_overhead_only |
+| php | php_p9_h8 | 3 | 3 | 9 | 0 | 0 | 0 | 0.03844 | 0.08672 | 0.009154 | -0.1296 | 8.667 | 3 | 9 | event_collection_overhead_only |
+| random_3sat_control | random_3sat_control_v160_c704_seed2615 | 3 | 3 | 9 | 0 | 0 | 0 | 0.0047 | 0.1086 | 0.004884 | 0.01232 | 22 | 3 | 9 | event_collection_overhead_only |
+| random_3sat_control | random_3sat_control_v180_c760_seed3301 | 3 | 3 | 9 | 0 | 0 | 0 | -0.4335 | 0.0602 | 0.006729 | 0.1561 | 28 | 3 | 9 | event_collection_overhead_only |
+| random_3sat_control | random_3sat_control_v220_c928_seed3303 | 3 | 3 | 9 | 0 | 0 | 0 | -0.3073 | -0.1102 | 0.005435 | 0.00879 | 39 | 3 | 9 | event_collection_overhead_only |
+| random_3sat_control | random_3sat_control_v220_c942_seed3304 | 3 | 3 | 9 | 0 | 0 | 0 | 0.08969 | -0.09979 | 0.0073 | 0.2155 | 26 | 3 | 9 | event_collection_overhead_only |
+| random_3sat_control | random_3sat_control_v260_c1097_seed3305 | 3 | 3 | 9 | 0 | 0 | 0 | -2.476 | -0.9719 | 0.007036 | -0.454 | 35 | 3 | 9 | event_collection_overhead_only |
+| random_3sat_control | random_3sat_control_v260_c1113_seed3306 | 3 | 3 | 9 | 0 | 0 | 0 | 0.6701 | -0.2599 | 0.006204 | 0.617 | 34 | 3 | 9 | event_collection_overhead_only |
+| random_3sat_control | random_3sat_control_v300_c1266_seed3307 | 3 | 3 | 9 | 0 | 0 | 0 | 0.2814 | -1.098 | 0.008195 | 0.02575 | 48 | 3 | 9 | event_collection_overhead_only |
+| subset_cardinality | subset_cardinality_bw10 | 3 | 3 | 9 | 0 | 0 | 0 | 0.0006899 | 0.09725 | 0.002248 | 0.002537 | 8.333 | 3 | 9 | event_collection_overhead_only |
+| subset_cardinality | subset_cardinality_bw12 | 3 | 3 | 9 | 0 | 0 | 0 | 0.002 | 0.05402 | 0.002457 | 0.001879 | 10.67 | 3 | 9 | event_collection_overhead_only |
+| subset_cardinality | subset_cardinality_bw8 | 3 | 3 | 9 | 0 | 0 | 0 | -8.111e-06 | 0.0325 | 0.001983 | 0.002691 | 13.33 | 3 | 9 | event_collection_overhead_only |
+
+## Guided Loss Diagnostics
+
+_None._
+
+## Family Breakdown
+
+| family | method | rows | solved_instances | mean_protocol_accounted_time | mean_final_cpu_time | mean_warmup_cpu_time | events_available_instances |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| complete_coloring | plain_unguided_glucose | 27 | 27 | 1.334 | 1.334 | 0 | 0 |
+| complete_coloring | neutral_weighted_glucose | 27 | 27 | 1.252 | 1.252 | 0 | 0 |
+| complete_coloring | static_weighted_glucose | 27 | 27 | 1.304 | 1.206 | 0 | 0 |
+| complete_coloring | cached_trace_no_adapter_final | 27 | 27 | 1.312 | 1.206 | 0.006698 | 27 |
+| complete_coloring | event_adapter_final | 27 | 27 | 1.397 | 1.287 | 0.006698 | 27 |
+| php | plain_unguided_glucose | 18 | 18 | 1.978 | 1.978 | 0 | 0 |
+| php | neutral_weighted_glucose | 18 | 18 | 1.832 | 1.832 | 0 | 0 |
+| php | static_weighted_glucose | 18 | 18 | 1.886 | 1.786 | 0 | 0 |
+| php | cached_trace_no_adapter_final | 18 | 18 | 1.895 | 1.786 | 0.00849 | 18 |
+| php | event_adapter_final | 18 | 18 | 2.04 | 1.928 | 0.00849 | 18 |
+| random_3sat_control | plain_unguided_glucose | 63 | 63 | 1.662 | 1.662 | 0 | 0 |
+| random_3sat_control | neutral_weighted_glucose | 63 | 63 | 1.352 | 1.352 | 0 | 0 |
+| random_3sat_control | static_weighted_glucose | 63 | 63 | 1.013 | 0.8638 | 0 | 0 |
+| random_3sat_control | cached_trace_no_adapter_final | 63 | 63 | 1.02 | 0.8638 | 0.005628 | 63 |
+| random_3sat_control | event_adapter_final | 63 | 63 | 1.103 | 0.9432 | 0.005628 | 63 |
+| subset_cardinality | plain_unguided_glucose | 27 | 27 | 0.001925 | 0.001925 | 0 | 0 |
+| subset_cardinality | neutral_weighted_glucose | 27 | 27 | 0.002818 | 0.002818 | 0 | 0 |
+| subset_cardinality | static_weighted_glucose | 27 | 27 | 0.06407 | 0.001936 | 0 | 0 |
+| subset_cardinality | cached_trace_no_adapter_final | 27 | 27 | 0.0663 | 0.001936 | 0.001489 | 27 |
+| subset_cardinality | event_adapter_final | 27 | 27 | 0.06867 | 0.001982 | 0.001489 | 27 |
+
+## Interpretation
+
+This run is a repeated paired runtime preflight and attribution ledger, not a
+solver speedup claim. If the Glucose seed has no measurable effect on these
+instances, interpret repeats as runtime stability rather than seed stability.
+Any later runtime comparison should keep the neutral weighted baseline and the
+cached-trace no-adapter ablation so the weighted path, static weights, event
+collection overhead, and adapter delta remain separable.

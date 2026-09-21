@@ -1,0 +1,61 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_echosat_symmetry_grpo_v1_6_wc1_softpair
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_7_WC1_PositiveCap
+model_dir: runs/${model_name}
+
+# Keep the same selected low-warmup seed as v1.6; v1.7 only repairs objective
+# accounting before a formal run.
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt
+
+training:
+  echosat_target_mode: symmetry_grpo_v1_7
+
+  # Formal run size. This remains a real run, not a smoke configuration.
+  iterations: 120
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+
+  save_echosat_reward_replay: true
+  save_echosat_reward_replay_every: 1
+  echosat_reward_replay_dir: runs/${model_name}/reward_replay
+
+  # v1.7 repair: mixed canonical/permutation groups stay as soft penalties, but
+  # they cannot erase all positive signal on rows that already satisfy strict
+  # adapter-vs-cached decisions/conflicts reduction. Failure rows still get the
+  # uncapped penalty.
+  echosat_v16_hard_block_mixed_positive: false
+  echosat_suppress_mixed_group_positive: false
+  echosat_pair_rank_penalty_weight: 1.0
+  echosat_permutation_delta_weight: 2.5
+  echosat_mixed_group_negative_scale: 2.0
+  echosat_mixed_group_positive_scale: 0.35
+  echosat_v17_positive_consistency_penalty_fraction: 0.15
+  echosat_v17_positive_large_shift_penalty_fraction: 0.20
+
+  # Keep controls and known failures penalty-only.
+  echosat_control_negative_advantage_weight: 1.0
+  echosat_random_control_penalty_weight: 7.5
+  echosat_control_penalty_weight: 3.5
+  echosat_large_weight_phase_shift_penalty_weight: 2.0
+  echosat_control_weight_delta_weight: 3.5
+  echosat_control_phase_flip_weight: 3.5
+  echosat_control_rank_change_weight: 2.0
+  echosat_anchor_failure_penalty_weight: 8.0
+  echosat_anchor_catastrophic_failure_floor: 2.0
+  echosat_hard_negative_penalty_weight: 8.0
+  echosat_hard_negative_failure_floor: 1.25
+  echosat_subset_failure_penalty_weight: 8.0
+  echosat_subset_failure_floor: 1.5
+  echosat_suppress_subset_failure_positive: true
+
+optim:
+  lr: 3.0e-6
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

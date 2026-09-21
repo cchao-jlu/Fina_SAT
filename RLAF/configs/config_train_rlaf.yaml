@@ -1,0 +1,99 @@
+# @package _global_
+
+defaults:
+  - _self_
+
+method: grpo
+
+model_name: GNN_Glucose_3SAT
+model_dir: runs/${model_name}
+
+from_checkpoint: null
+
+val_interval: 5
+ckpt_interval: null   # "best.pt" is always saved
+
+training:
+  iterations: 2000
+  cnf_per_iter: 100
+  steps_per_iter: 50
+  clip_ratio: 0.2
+  beta: 1.0
+  kl_penalty: 0.1
+  target_stat: decisions
+  num_samples: 40
+  use_amp: True
+  feedback_input_mode: none
+  feedback_val_mode: none
+  feedback_model_warmup_prob: 0.3
+  feedback_warmup_cpu_lim: 1
+  feedback_warmup_num_samples: 1
+  feedback_random_weight: 1.0
+  composite_cpu_weight: 1.0
+  composite_conflicts_weight: 0.2
+  composite_decisions_weight: 0.0
+  composite_unsolved_penalty: 0.0
+  speedup_baseline: neutral_weighted
+  speedup_baseline_weight: 1.0
+  speedup_cpu_column: "CPU time"
+  speedup_cpu_weight: 1.0
+  speedup_conflicts_weight: 0.2
+  speedup_decisions_weight: 0.05
+  speedup_unsolved_penalty: 8.0
+  speedup_result_mismatch_penalty: 20.0
+  speedup_ratio_eps: 1.0e-6
+  speedup_log_ratio_clip: 2.0
+  feedback_state_type: global
+  feedback_event_state_features: legacy
+  feedback_state_momentum: 0.0
+  feedback_warmup_budget_type: cpu_time
+  feedback_warmup_conflicts: 500
+  feedback_trace_lbd: 2
+
+dataset:
+  train_path: "data/training/3sat/*/*.cnf"
+  val_path: "data/validation/3sat/*/*.cnf"
+
+solver:
+  solver: glucose
+  num_workers: 8
+  params: # CLI parameters for glucose (not used when solver=march)
+    cpu-lim: 60
+    rnd-freq: 0.0
+    K: 0.1
+
+model:
+  channels: 256
+  num_layers: 10
+  global_state_dim: 0
+  aggr: [mean]
+  feature_encoder: mlp
+  dropout: 0.0
+  feature_set: rich
+  separate_encoders: True
+  learnable_sigma: True
+
+# this is the sigma parameter for the log-normal weight distributions
+scale_sigma: 0.1
+
+loader:
+  batch_size: 20
+  num_workers: 0
+
+optim:
+  lr: 5e-5
+  weight_decay: 0.0
+
+wandb:
+  project: RLAF
+  name: ${model_name}
+
+
+# path to original working directory
+work_dir: ${hydra:runtime.cwd}
+
+# path to folder with data
+data_dir: data
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: 0

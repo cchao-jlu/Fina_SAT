@@ -1,0 +1,45 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_echosat_symmetry_grpo_v1_8_wc1_objectiverepair
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_v2_Stage5_Short_Retry1
+model_dir: runs/${model_name}
+
+from_checkpoint: runs/GNN_Glucose_3SAT_EchoSAT_SymmetryGRPO_v1_2_WC1_HardNeg_Full/iter=15.pt
+
+skip_initial_val: false
+val_interval: 5
+ckpt_interval: 5
+
+training:
+  echosat_target_mode: symmetry_grpo_v2
+  echosat_replay_only: false
+  echosat_compatible_checkpoint_init: true
+
+  iterations: 20
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+
+  save_echosat_reward_replay: true
+  save_echosat_reward_replay_every: 1
+  echosat_reward_replay_dir: runs/${model_name}/reward_replay
+
+  echosat_orbit_certification_path: runs/analysis/echosat_v2_orbit_certification.csv
+  echosat_orbit_variable_path: runs/analysis/echosat_v2_orbit_variables.csv
+
+model:
+  global_state_dim: 6
+  event_adapter:
+    enabled: true
+    fusion: weight_only_residual
+    orbit_feature_dim: 10
+    orbit_event_state_dim: 100
+    require_valid_orbit: true
+    min_orbit_event_variance: 1.0e-6
+    delta_clip: 0.25
+
+wandb:
+  mode: disabled

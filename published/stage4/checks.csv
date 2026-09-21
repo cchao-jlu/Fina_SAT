@@ -1,0 +1,4 @@
+check,passed,evidence
+blocked_rows_non_positive,True,blocked=1102 positive=0 invalid_eligibility=0
+eligible_positive_exists,True,eligible=82 positive=37
+all_v2_stage4_checks,True,blocked_rows_non_positive=True eligible_positive_exists=True

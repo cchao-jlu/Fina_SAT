@@ -1,0 +1,52 @@
+# @package _global_
+
+defaults:
+  - config_train_rlaf_echosat_grpo_v1_full
+  - _self_
+
+model_name: GNN_Glucose_3SAT_EchoSAT_AdapterDelta_v2_Full
+model_dir: runs/${model_name}
+
+# Start from the trace-distilled symmetry adapter checkpoint and freeze the
+# static backbone/head during GRPO so reward cannot be earned by static drift.
+from_checkpoint: runs/GNN_Glucose_3SAT_SymmetryTraceAdapter_NegGatePermConsVC_W05/best.pt
+
+training:
+  target_stat: echosat_cost
+  trainable_scope: event_adapter
+  echosat_target_mode: adapter_delta
+
+  # Formal run size, not a smoke run.
+  iterations: 240
+  cnf_per_iter: 48
+  steps_per_iter: 48
+  num_samples: 16
+
+  # Sample complete base/permutation groups together so permutation-delta
+  # regularization has base and variant rows in the same GRPO iteration.
+  echosat_sampling_mode: base_group
+  echosat_base_groups_per_iter: 3
+  echosat_control_base_groups_per_iter: 1
+  echosat_base_group_seed: 1729
+
+  # Adapter-delta v2: positive signal is event adapter vs static/cached search.
+  # Static weighted improvements are not counted as adapter reward.
+  echosat_static_reference_weight: 0.0
+  echosat_static_reference_cpu_weight: 0.0
+  echosat_control_portfolio_weight: 0.0
+  echosat_portfolio_weight: 0.0
+  echosat_overhead_weight: 0.0
+  echosat_weighted_risk_weight: 0.75
+  echosat_control_penalty_weight: 0.75
+  echosat_delta_magnitude_weight: 0.15
+  echosat_permutation_delta_weight: 0.75
+  echosat_control_advantage_weight: 0.10
+  echosat_weak_advantage_weight: 0.6
+  echosat_strong_advantage_weight: 1.0
+
+optim:
+  lr: 2.0e-5
+  weight_decay: 0.0
+
+wandb:
+  mode: disabled

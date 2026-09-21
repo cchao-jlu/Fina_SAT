@@ -1,0 +1,12 @@
+{
+  "exit_mode": "single",
+  "expected_result": "SATISFIABLE",
+  "family": "php_exit_single",
+  "holes": 4,
+  "instance_id": "php_exit_single_p5_h4",
+  "num_clauses": 75,
+  "num_vars": 21,
+  "pigeons": 5,
+  "source": "SAT-b-inspired symmetry stress set",
+  "variant": "base"
+}
