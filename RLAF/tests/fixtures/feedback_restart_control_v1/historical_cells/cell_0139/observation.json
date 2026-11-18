@@ -1,0 +1,18 @@
+{
+  "source": "EchoSAT-Balanced-Feedback-20261104-v1:formal:300:127",
+  "n": 300,
+  "arm": "Balanced",
+  "repeat": 0,
+  "status": "solved",
+  "verified": true,
+  "par2": 2.5729200349996972,
+  "action_sha256": "24bfd7c5ee9462cf2173d6217d9228d59d6b258cd4c008fa0a4b9061160460cf",
+  "result_sha256": "59ce863a4a28c856d966144201605b56fea9052a82c0338fa90fe8e4d6785b6b",
+  "frontend_wall_seconds": 0.7715275700002167,
+  "probe_wall_seconds": 0.7369510239996089,
+  "probe_succeeded": false,
+  "solver_cpu_par2": 1.17774,
+  "conflicts": 70111.0,
+  "decisions": 80737.0,
+  "answer": "SATISFIABLE"
+}

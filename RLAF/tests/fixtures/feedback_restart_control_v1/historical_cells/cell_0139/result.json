@@ -1,0 +1,55 @@
+{
+  "status": "solved",
+  "verified": true,
+  "stats": {
+    "restarts": 1.0,
+    "conflicts": 70111.0,
+    "decisions": 80737.0,
+    "propagations": 3325414.0,
+    "CPU time": 1.17774,
+    "Result": "SATISFIABLE"
+  },
+  "source_sha256": "4099279229c9e28528b4584a235a746625b937d8705ede188378b1c8ee18b132",
+  "arm": "Balanced",
+  "started_monotonic": 4481.441685734,
+  "deadline_monotonic": 4541.441685734,
+  "process": {
+    "command": [
+      "/mnt/d/EchoSAT/RLAF/runs/p1_20260922_build/bin/glucose_weighted/simp/glucose_static",
+      "-certified",
+      "-certified-output=/mnt/c/Users/admin/EchoSAT_results/balanced_feedback_check_20261104_r1/cell_0139/proof.drup",
+      "-rnd-freq=0",
+      "-rnd-seed=1",
+      "-K=0.1",
+      "-model",
+      "/mnt/c/Users/admin/EchoSAT_results/balanced_feedback_check_20261104_r1/cell_0139/input.cnf"
+    ],
+    "launched": true,
+    "launch_attempted": true,
+    "returncode": 10,
+    "process_started_monotonic": 4482.218204046,
+    "process_ended_monotonic": 4484.014605769,
+    "wall_seconds": 1.7964017229996898,
+    "deadline_monotonic": 4541.441685734,
+    "operation_cpu_seconds": 1.263879999999972,
+    "cpu_observed": 1.21,
+    "stop_reason": null,
+    "hard_killed": false,
+    "stdout_sha256": "08ac6ccdd41e34598d7046a3b17e70f682de50f028c292413bf028b9b13834d1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "checker": null,
+  "proof_archive": {
+    "raw_sha256": "621cf7123e6e6e6e8be8ef14166b239be9dbd3fc0aa0b2ccf5152ad9dc4fd5a4",
+    "raw_bytes": 9487381,
+    "archive_sha256": "8f439c23615edb2cf7863744c32c81665ec93ceb03b5ece8e1c7ec6d3d834ca4",
+    "archive_bytes": 3441600,
+    "roundtrip_verified": true,
+    "wall_seconds": 0.20056897999984358
+  },
+  "ended_monotonic": 4484.014605769,
+  "deployment_wall_seconds": 2.5729200349996972,
+  "par2": 2.5729200349996972,
+  "input_sha256": "4099279229c9e28528b4584a235a746625b937d8705ede188378b1c8ee18b132",
+  "total_wall_seconds": 2.7958879930001785
+}

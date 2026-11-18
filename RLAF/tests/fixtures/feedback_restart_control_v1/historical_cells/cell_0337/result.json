@@ -1,0 +1,55 @@
+{
+  "status": "solved",
+  "verified": true,
+  "stats": {
+    "restarts": 1.0,
+    "conflicts": 78767.0,
+    "decisions": 91227.0,
+    "propagations": 3656774.0,
+    "CPU time": 1.30686,
+    "Result": "SATISFIABLE"
+  },
+  "source_sha256": "dc920257f996dc4d674b56d451e4bcd04445923dcba49f2d0b5aff2be75bf3c9",
+  "arm": "Balanced",
+  "started_monotonic": 11372.539083928,
+  "deadline_monotonic": 11432.539083928,
+  "process": {
+    "command": [
+      "/mnt/d/EchoSAT/RLAF/runs/p1_20260922_build/bin/glucose_weighted/simp/glucose_static",
+      "-certified",
+      "-certified-output=/mnt/c/Users/admin/EchoSAT_results/balanced_feedback_check_20261104_r1/cell_0337/proof.drup",
+      "-rnd-freq=0",
+      "-rnd-seed=1",
+      "-K=0.1",
+      "-model",
+      "/mnt/c/Users/admin/EchoSAT_results/balanced_feedback_check_20261104_r1/cell_0337/input.cnf"
+    ],
+    "launched": true,
+    "launch_attempted": true,
+    "returncode": 10,
+    "process_started_monotonic": 11373.054865897,
+    "process_ended_monotonic": 11374.959481645,
+    "wall_seconds": 1.9046157480006514,
+    "deadline_monotonic": 11432.539083928,
+    "operation_cpu_seconds": 1.3668800000014016,
+    "cpu_observed": 1.33,
+    "stop_reason": null,
+    "hard_killed": false,
+    "stdout_sha256": "56821c6f22494c5ae4144c904b350ecac3762713e82b3ad67aea30f5335dfc96",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "checker": null,
+  "proof_archive": {
+    "raw_sha256": "5474bf79fd29e6da565d11294eebfa0d706700578ebe72fbc6c35087173afd85",
+    "raw_bytes": 9325109,
+    "archive_sha256": "487c109bb6c6278d47ff57f454124c0ab6a516e0b52964f160954bc9796e688a",
+    "archive_bytes": 3385298,
+    "roundtrip_verified": true,
+    "wall_seconds": 0.1756890190008562
+  },
+  "ended_monotonic": 11374.959481645,
+  "deployment_wall_seconds": 2.4203977170000144,
+  "par2": 2.4203977170000144,
+  "input_sha256": "dc920257f996dc4d674b56d451e4bcd04445923dcba49f2d0b5aff2be75bf3c9",
+  "total_wall_seconds": 2.6200547680000454
+}

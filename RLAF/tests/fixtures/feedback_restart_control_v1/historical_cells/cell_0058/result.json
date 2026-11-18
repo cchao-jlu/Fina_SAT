@@ -1,0 +1,55 @@
+{
+  "status": "solved",
+  "verified": true,
+  "stats": {
+    "restarts": 1.0,
+    "conflicts": 30522.0,
+    "decisions": 36233.0,
+    "propagations": 1518734.0,
+    "CPU time": 0.400051,
+    "Result": "SATISFIABLE"
+  },
+  "source_sha256": "5b656601f8fabbd859b89bea844cae45278ecb2a7fbd83d923142efe07bd92d1",
+  "arm": "Balanced",
+  "started_monotonic": 2051.416386362,
+  "deadline_monotonic": 2111.416386362,
+  "process": {
+    "command": [
+      "/mnt/d/EchoSAT/RLAF/runs/p1_20260922_build/bin/glucose_weighted/simp/glucose_static",
+      "-certified",
+      "-certified-output=/mnt/c/Users/admin/EchoSAT_results/balanced_feedback_check_20261104_r1/cell_0058/proof.drup",
+      "-rnd-freq=0",
+      "-rnd-seed=1",
+      "-K=0.1",
+      "-model",
+      "/mnt/c/Users/admin/EchoSAT_results/balanced_feedback_check_20261104_r1/cell_0058/input.cnf"
+    ],
+    "launched": true,
+    "launch_attempted": true,
+    "returncode": 10,
+    "process_started_monotonic": 2051.589060656,
+    "process_ended_monotonic": 2052.257603347,
+    "wall_seconds": 0.6685426909998569,
+    "deadline_monotonic": 2111.416386362,
+    "operation_cpu_seconds": 0.4321620000002895,
+    "cpu_observed": 0.4,
+    "stop_reason": null,
+    "hard_killed": false,
+    "stdout_sha256": "aff27417efb6dcfbcc3e1ad7c97403a044f9af38ad4e56baf0b9a0d83f59f4b3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "checker": null,
+  "proof_archive": {
+    "raw_sha256": "1c000c4c9794458cce49443fbd757811f2c43483c365ae54be5dfc8b51872b2d",
+    "raw_bytes": 4320379,
+    "archive_sha256": "6c80bcc9f3731fdff24fba16b9d85ca3a3805c31212e772847dc7a00764ceab0",
+    "archive_bytes": 1560158,
+    "roundtrip_verified": true,
+    "wall_seconds": 0.08449963000020944
+  },
+  "ended_monotonic": 2052.257603347,
+  "deployment_wall_seconds": 0.8412169849998463,
+  "par2": 0.8412169849998463,
+  "input_sha256": "5b656601f8fabbd859b89bea844cae45278ecb2a7fbd83d923142efe07bd92d1",
+  "total_wall_seconds": 0.9471938349997799
+}
