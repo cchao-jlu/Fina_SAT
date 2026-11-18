@@ -1,0 +1,15 @@
+{
+  "source": "EchoSAT-Balanced-Feedback-20261104-v1:formal:350:58",
+  "n": 350,
+  "arm": "Balanced",
+  "repeat": 0,
+  "source_sha256": "91017e4269745a65dab3dc56a419fa3dec3c0ca22527eba39c15129a5481f528",
+  "checkpoint_sha256": "cdbd1b3ce595ed30a32fa38c55bc1c535a8499227ba4c00063742d62c0debecf",
+  "action": null,
+  "forward_attempted": true,
+  "forward_completed": false,
+  "frontend_wall_seconds": 0.2728146989998095,
+  "probe_z": null,
+  "probe_wall_seconds": 0.23628092599983574,
+  "probe_succeeded": false
+}
